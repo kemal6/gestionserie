@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class users extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+    protected $guarded = [];  
+    
+
+    public function getDateFormat(){
+        return 'Y-d-m H:i:s.v';
+    }
+
+    
 }

@@ -10,17 +10,17 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
+
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('num_serie', function (Blueprint $table) {
+        Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->string('numS')->unique();;
+            $table->string('code')->unique();
+            $table->string('designation');
+            $table->string('lastns');
+            $table->unsignedBigInteger('plan_id');
+            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');            
             $table->timestamps();
-            $table->unsignedBigInteger('article_id');
-            $table->foreign('article_id')->references('id')->on('article');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('user');
-             
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('num_serie');
+        Schema::dropIfExists('articles');
     }
 };
