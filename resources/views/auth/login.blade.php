@@ -1,4 +1,5 @@
 
+ {{-- OK --}}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -103,11 +104,11 @@ p {
                     <div class="input-group mb-3">
                         
                         <span class="input-group-addon" style="margin-right: 10px" ><i class="fa fa-user"></i></span>
-                        <input type="email" class="form-control" name="email" value="{{ old('email','john@gmail.com')}}">                       
+                        <input type="email" class="form-control" name="email" placeholder="email"  {{-- value="{{ old('email','john@gmail.com')}}" --}} >                       
                     </div>
                     <div class="input-group mb-4">
                         <span class="input-group-addon" style="margin-right: 10px"><i class="fa fa-lock"></i></span>
-                        <input type="password" class="form-control" name="password" value="{{ old('password','5623')}}">
+                        <input type="password" class="form-control" name="password" placeholder="password" {{-- value="{{ old('password','5623')}}"--}}>
                         <div>
                             @error("password")
                             {{$message}}
@@ -134,11 +135,6 @@ p {
 
                 </form>
 
-
-                                {{-- fin form log --}}
-                                                {{-- <div class="col-6 text-right">
-                                                <button type="button" class="btn btn-link px-0">Forgot password?</button>
-                                                </div> --}}
             </div>
             </div>
           </div>

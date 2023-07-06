@@ -31,7 +31,7 @@
     @error("code")
         {{$message}}
     @enderror
-    <label for="code" style="color: rgb(38, 73, 190);font-weight: bold;" >Code</label>    
+    <label for="code" style="color: rgb(38, 73, 190);font-weight: bold;" >Code_article</label>    
     <input type="text" name="code" value="{{ old('code','stylo-x')}} " style="margin-right: 15px">
     </div>
     
@@ -39,7 +39,7 @@
         @error("designation")
         {{$message}}
     @enderror          
-    <label for="designation" style="color: rgb(38, 73, 190);font-weight: bold;">Designation</label>    
+    <label for="designation" style="color: rgb(38, 73, 190);font-weight: bold;">Désignation</label>    
         <input type="text" name="designation" value="{{ old('designation','stylo')}}" style="margin-right: 15px">
     </div>
 

@@ -1,4 +1,4 @@
-
+{{-- OK --}}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -115,14 +115,14 @@ p {
                             <div class="input-group mb-3">
                                 
                                 <span class="input-group-addon" style="margin-right: 10px" ><i class="fa fa-envelope"></i></span>
-                                <input type="email" class="form-control" name="email" placeholder="nom" value="{{ old('email','john@gmail.com')}}" style="margin-right: 20px">                       
+                                <input type="email" class="form-control" name="email" placeholder="email"  {{-- value="{{ old('email','john@gmail.com')}}" --}} style="margin-right: 20px">                       
                                 @error("email")
                                 {{$message}}
                                 @enderror                           
                             </div>
                             <div class="input-group mb-4">
                                 <span class="input-group-addon" style="margin-right: 10px"><i class="fa fa-lock"></i></span>
-                                <input type="password" class="form-control" name="password" placeholder="password" value="{{ old('password','5623')}}" style="margin-right: 20px">
+                                <input type="password" class="form-control" name="password" placeholder="password" {{-- value="{{ old('password','5623')}}"--}} style="margin-right: 20px">
                                 <div>
                                     @error("password")
                                     {{$message}}
@@ -132,11 +132,23 @@ p {
                           
                             {{-- <div class="row" > --}}
                                 
-                                <div class="">
+                            <div class="">
+
+                                    
                                    
                                     <button class="btn btn-primary active mt-3 center" style="font-weight: bold">Enregistrer</button>
+                                    
+                                    {{-- <form action="{{ URL::previous() }}" method="get"  class="form-inline">
+                                        <button class="btn btn-primary active mt-3 center" style="font-weight: bold">
+                                           Login
+                                        </button>
+                                    </form> --}}
                                       
-                 
+                                    <br>
+                                    <a href="{{ route('auth.login') }}" style="color: #eee;" type="button">
+                                        Login
+                                    </a>
+                                   
         
                             </div>
         
