@@ -102,6 +102,7 @@ return [
             'username' => env('DB_USERNAME', 'sa'),
             'password' => env('DB_PASSWORD', 'S0L_S3rv3r'),
             'charset' => 'utf8',
+            'collatiion' => 'Latin1_General_CS_AS',
             'prefix' => '',
             'prefix_indexes' => true,
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),

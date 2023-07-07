@@ -15,6 +15,7 @@ use App\Models\plans;
 use Cyberduck\LaravelExcel\Contract\ParserInterface;
 //use DB;
 use Excel;
+use Illuminate\Database\Eloquent\Model;
 use Importer;
 
 use App\Models\num_series;
@@ -87,7 +88,7 @@ class mainController extends Controller
             $a= articles::select('*')
             ->where('code', '=',$codearticle)
             ->join('num_series', 'num_series.article_id', 'articles.id')
-            ->paginate(15);
+            ->paginate(6);
             //$images=Page::select('*')->where('type','GALLERY')->paginate(2);
 
             $articles=articles::all(); 
@@ -193,24 +194,24 @@ public function import(UploadfexRequest $request, Excel $excel) {
 // return $request->file('file1');
 DB::beginTransaction();
 DB::commit();
-Excel::import(new ImportNums, $request->file1);
+Excel::import(new num_series, $request->file1);
 DB::commit();
 
 DB::rollback();
 
 
-try {
-    // Votre code SQL ici
-    DB::beginTransaction();
-        Excel::import(new ImportNums, $request->file1);
+// try {
+//     // Votre code SQL ici
+//     DB::beginTransaction();
+//         Excel::import(new ImportNums, $request->file1);
 
-    DB::commit();
-} catch (\Exception $e) {
-    //DB::rollback();
-    // Gérer l'erreur ici
+//     DB::commit();
+// } catch (\Exception $e) {
+//     //DB::rollback();
+//     // Gérer l'erreur ici
    
-    return 'error';
-}
+//     return 'error';
+// }
   
 
     return redirect()->route('index')->with('succes',"Importation réussie");;

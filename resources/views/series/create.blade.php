@@ -19,7 +19,7 @@
 
                     <button class="btn btn-primary my-2 my-sm-0" type="submit" style="margin-right: 15px">Génerer</button>  
                     <div>
-                        <label for="article" style="color: rgb(38, 73, 190);font-weight: bold; margin-right: 15px">Code_article</label>
+                        <label for="article" style="color: rgb(38, 73, 190);font-weight: bold; margin-right: 15px;">Code_article</label>
                             <select name="article" id="article">
                                 @foreach($articles as $a)
                                     <option value="{{ $a->code }}">{{ $a->code }}</option>
@@ -30,7 +30,7 @@
                     <div>
                     <label for="nombre" style="color: rgb(38, 73, 190);font-weight: bold;">Nombre</label>
 
-                    <input type="number" name="nombre" id="" min="1" max="50" value="1">
+                    <input type="number" name="nombre" id="" min="1" max="50" value="1" style="margin-left: 15px">
                     </div>
                     @error("nombre")
                         {{$message}}
@@ -77,16 +77,16 @@
             <table class="table table-striped" style="margin-top: 20px">
             <head >
                 <tr>
-                    <th >Article</th>
-                    <th  >Code article</th>
+                    <th >Code article</th>
+                    <th>Désignation article</th>
                     <th class="text-end">Numéro série</th>
                 </tr>
             </head>
             <tbody>
                 @foreach ($properties as $property )
                     <tr>
-                        <td>{{ $property->designation}}</td>
                         <td>{{ $property->code}}</td>
+                        <td>{{ $property->designation}}</td>
                         <td>{{ $property->numS}}</td>
                     </tr>
                     

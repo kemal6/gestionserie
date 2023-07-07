@@ -63,7 +63,7 @@
             <head>
                 <tr>
                     <th>Code article </th>
-                    <th>Désignation </th>
+                    <th>Désignation  </th>
                     <th class="text-end">Plan</th>
                 </tr>
             </head>

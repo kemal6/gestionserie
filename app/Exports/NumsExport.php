@@ -24,7 +24,7 @@ WithHeadings
     {
         return [
             'Numero_serie',
-            'Date_creation',
+            'date_creation',
         ];
     }
 }

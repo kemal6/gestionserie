@@ -69,16 +69,16 @@
             <table class="table table-striped" style="margin-top: 20px">
             <head>
                 <tr>
-                    <th>Article</th>
                     <th>Code article</th>
+                    <th>Désignation article</th>
                     <th class="text-end">Numéro série</th>
                 </tr>
             </head>
             <tbody>
                 @foreach ($properties as $property )
                     <tr>
-                        <td>{{ $property->designation}}</td>
                         <td>{{ $property->code}}</td>
+                        <td>{{ $property->designation}}</td>
                         <td>{{ $property->numS}}</td>
                     </tr>
                     

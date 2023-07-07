@@ -65,27 +65,29 @@
     
     <div class="container">
     
-            <table class="table table-striped" style="margin-top: 20px">
-            <head>
+        <table class="table table-striped" style="margin-top: 20px">
+        <head>
+            <tr>
+                <th>Code article</th>
+                <th>Désignation article</th>
+                <th class="text-end">Numéro série</th>
+            </tr>
+        </head>
+        <tbody>
+            @foreach ($properties as $property )
                 <tr>
-                    <th>Article</th>
-                    <th class="text-end">Numéro</th>
+                    <td>{{ $property->code}}</td>
+                    <td>{{ $property->designation}}</td>
+                    <td>{{ $property->numS}}</td>
                 </tr>
-            </head>
-            <tbody>
-                @foreach ($properties as $property )
-                    <tr>
-                        <td>{{ $property->designation}}</td>
-                        <td>{{ $property->numS}}</td>
-                    </tr>
-                    
-                @endforeach
-            </tbody>
-        </table>
-    
-        {{ $properties->links()}}
-    
-    </div>
+                
+            @endforeach
+        </tbody>
+    </table>
+
+    {{ $properties->links()}}
+
+</div>
     
 
 </div>

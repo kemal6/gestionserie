@@ -33,16 +33,17 @@ class AuthController extends Controller
         ->where('users.email', '=',$um)->first();
     
 
+//return (Auth::attempt($credentials));
+
+
+            if(Auth::attempt($credentials)){
+
         $artid=$b->email;
         $pwd=$b->password;
 
         $artv= $pwe==$pwd;
 
 
-//return (Auth::attempt($credentials));
-
-
-            if(Auth::attempt($credentials)){
                 $request->session()->regenerate();
                 return redirect()->intended(route('index'));
             }
