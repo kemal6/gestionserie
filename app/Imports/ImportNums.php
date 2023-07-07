@@ -47,30 +47,78 @@ class ImportNums implements ToModel, WithHeadingRow
             ->exists();
 
 
+
            // dd($resultcode);
+
+        //    $numser="crayon-2230002";
+        //    $codear="crayon-2";
+
+
+        //    $ccode = substr($numser,0, strlen($codear)); //codea dans nums
+        //    $y1 = substr($numser,-6); // 6 derniers carac de nums
+
+
+        //    $t1=is_int(intval($y1)); // 6 derniers carac sont des entiers
+
+        //    $t2=($ccode==$codear);
+
+        //    $t3=($codear.$y1==$numser);
+
+        //    dd($t1);
 
 
         if($resultcode && !$resultnums){ //si nums absent mais codea present 
 
+            $numser=$row['numeroserie'];
+            $codear=$row['codearticle'];
 
-            $ida=$b->ida;
-            $codea=$b->code;
-            //dd('super');
 
-             return num_series::create(
-                ['numS' => $row['numeroserie'],
-            'article_id' => $ida,
-            'user_id' => 2,  ]
-             );
+            $ccode = substr($numser,0, strlen($codear)); //codea dans nums
+            $y1 = substr($numser,-6); // 6 derniers carac de nums
+            $y2 = substr($numser,-4); 
+
+
+            $t3=intval($y1)==$y1; // 6 derniers carac sont des entiers
+
+            $t1=($ccode==$codear);
+
+            $t2=($codear.$y1==$numser); // test de long de nums
+
+            $t4=("23".$y2 == $y1);// format 23xxxx
+            
+            //dump('ok');
+
+            if($t3 && $t1 && $t2 && $t4)
+            {
+                $ida=$b->ida;
+                $codea=$b->code;
+                //dd('super');
+    
+                 return num_series::create(
+                    ['numS' => $row['numeroserie'],
+                'article_id' => $ida,
+                'user_id' => 2,  ]
+                 );
+
+            }else{
+                //dd('oog');
+                //return redirect()->route('index')->with('success', 'Opéation rréussie.');
+
+
+            }
+
+
+
+          
+
+          
 
         }
-
-
-        
            
-       else{
-        return redirect()->route('index')->with('success', 'Opéation rréussie.');
-       }
+    //    else{
+    //     dd('mine');
+    //     return redirect()->route('index')->with('success', 'Opéation rréussie.');
+    //    }
        
 
 

@@ -190,11 +190,10 @@ public function import(UploadfexRequest $request, Excel $excel) {
 // }
 
 //DB::beginTransaction();
-
 // return $request->file('file1');
 DB::beginTransaction();
 DB::commit();
-Excel::import(new num_series, $request->file1);
+Excel::import(new ImportNums, $request->file1);
 DB::commit();
 
 DB::rollback();
