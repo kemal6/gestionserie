@@ -1,3 +1,4 @@
+{{-- OK --}}
 @extends('series.base')
 @section('title', 'GNSAPK')
 @section('content')

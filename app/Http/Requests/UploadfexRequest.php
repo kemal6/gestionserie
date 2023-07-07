@@ -24,7 +24,7 @@ class UploadfexRequest extends FormRequest
         return [
             //
 
-            //    'file' => 'required|mimes:xlsx,xls'
+              'file1' =>  ['required'] 
 
         ];
     }

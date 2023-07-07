@@ -2,15 +2,21 @@
 
 @section('title', 'GNSAPK')
 @section('content')
-<h1>Exporter des numéros de séries</h1>
-<form action="{{ route('import')}}" method="post">
+<h1 style="margin-bottom: 50px">Importer des numéros de séries</h1>
+
+
+
+
+<form action="{{ route('import')}}" method="post"   enctype="multipart/form-data">
     @csrf
 
     <div>
         <input type="file" name="file" id="file"  accept=".xlsx" class="custom-file-input">
         @error("file")
             {{$message}}
-        @enderror  
+        @enderror
+        
+        
             
     <script>
     var previousPath="";
@@ -28,19 +34,35 @@
     }
     </script>  
     </div>
-    <INPUT TYPE="file" NAME="file1" SIZE="60" MAXLENGTH="60" onchange='return file1Value(this)'>
+    <INPUT TYPE="file" NAME="file1" SIZE="60" MAXLENGTH="60" onchange="return file1Value(this)">
         <INPUT TYPE="hidden" NAME="file1name" VALUE="">
          
         <SCRIPT LANGUAGE="JavaScript">
-        const selectedFile = document.getElementById("file1").files[0];
+        const selectedFile = document.getElementById("file").files[0];
         var path = (window.URL || window.webkitURL).createObjectURL(file);
     console.log('path', path);
 
-        thisvalue.form.file.value = selectedFile;
+
+        thisvalue.form.filename.value = selectedFile;
+
+//         function createObjectURL ( file ) {
+//     if ( window.webkitURL ) {
+//         return window.webkitURL.createObjectURL( file );
+//     } else if ( window.URL && window.URL.createObjectURL ) {
+//         return window.URL.createObjectURL( file );
+//     } else {
+//         return null;
+//     }
+// }
+// var fi= document.getElementById("file1").files[0];
+
+// var url = createObjectURL( file );
+// document.getElementById("file1name").value = url;
 
         </SCRIPT>
      
     <button> Importer </button>
+    
     
 </form>
 @endsection

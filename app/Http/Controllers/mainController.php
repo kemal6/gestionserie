@@ -12,18 +12,28 @@ use App\Http\Requests\CreateArticlesRequest;
 use App\Http\Requests\CreateNumsRequest;
 use App\Models\articles;
 use App\Models\plans;
-use DB;
+use Cyberduck\LaravelExcel\Contract\ParserInterface;
+//use DB;
+use Excel;
+use Importer;
+
 use App\Models\num_series;
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\DB;
+ use Illuminate\Support\Facades\DB;
 use Illuminate\view\view;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 //use Maatwebsite\Excel\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
-use Maatwebsite\Excel\Facades\Excel;
+//use Maatwebsite\Excel\Facades\Excel;
 use RectorPrefix202306\Symfony\Component\Console\Input\Input;
+
+use SQLConnection;
+use System;
+//use System.Data.SqlClient;
+
+
 
 class mainController extends Controller
 {
@@ -72,6 +82,7 @@ class mainController extends Controller
             //  WHERE num_series.article_id = articles.id AND articles.designation =@v
             // ";
 
+            
 
             $a= articles::select('*')
             ->where('code', '=',$codearticle)
@@ -157,8 +168,44 @@ public function export() {
 }
 
 public function import(UploadfexRequest $request, Excel $excel) {
+  
+    $credentials =  $request->validated();
+    $file = $request->file('file1');
 
-    Excel::import(new ImportNums, $request->file('file')->store('files'));
+
+    //return redirect()->back()->with('success', 'Le fichier Excel a été importé avec succès.');
+    //$serverName = "kemal-SATELLITE-C660\sqlexpress"; //serverName\instanceName
+
+// Since UID and PWD are not specified in the $connectionInfo array,
+// The connection will be attempted using Windows Authentication.
+// $connectionInfo = array( "Database"=>"test4", "UID"=>'sa',"PWD"=>'S0L_S3rv3r',);
+// $conn = \sqlsrv_connect( $serverName, $connectionInfo);
+
+// if( $conn ) {
+//      return 'ok';
+// }else{
+//      echo "Connection could not be established.<br />";
+//      die( print_r( sqlsrv_errors(), true));
+// }
+
+//DB::beginTransaction();
+
+
+
+try {
+    // Votre code SQL ici
+    DB::beginTransaction();
+    \Maatwebsite\Excel\Facades\Excel::import(new ImportNums, $request->file1);
+
+    DB::commit();
+} catch (\Exception $e) {
+    //DB::rollback();
+    // Gérer l'erreur ici
+   
+    return 'error';
+}
+  
+
     return redirect()->back();
 
     
