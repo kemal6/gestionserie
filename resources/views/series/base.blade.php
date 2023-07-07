@@ -84,7 +84,7 @@
             <button type="button" class="close" data-dismiss="alert">
                 <i class="fa fa-times"></i>
             </button>
-            <strong>Success ! rendez vous a l'ecran d'affichage pour visualiser</strong> {{ session('success') }}
+            <strong>Success ! Opération réussie </strong> {{ session('success') }}
         </div>
             
         @endif

@@ -190,12 +190,19 @@ public function import(UploadfexRequest $request, Excel $excel) {
 
 //DB::beginTransaction();
 
+// return $request->file('file1');
+DB::beginTransaction();
+DB::commit();
+Excel::import(new ImportNums, $request->file1);
+DB::commit();
+
+DB::rollback();
 
 
 try {
     // Votre code SQL ici
     DB::beginTransaction();
-    \Maatwebsite\Excel\Facades\Excel::import(new ImportNums, $request->file1);
+        Excel::import(new ImportNums, $request->file1);
 
     DB::commit();
 } catch (\Exception $e) {
@@ -206,7 +213,7 @@ try {
 }
   
 
-    return redirect()->back();
+    return redirect()->route('index')->with('succes',"Importation réussie");;
 
     
  //return dump($request->file1);     
