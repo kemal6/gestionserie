@@ -15,7 +15,7 @@
         <div class="row justify-content-md-center">
     
             <div class="col">
-                <form action="{{ route('indexA')}}" method="post" class="form-inline">
+                <form action="" method="post" class="form-inline">
                     @csrf
                 
                     <div>
@@ -64,30 +64,35 @@
     </div>
     
     <div class="container">
-    
-        <table class="table table-striped" style="margin-top: 20px">
-        <head>
-            <tr>
-                <th>Code article</th>
-                <th>Désignation article</th>
-                <th class="text-end">Numéro série</th>
-            </tr>
-        </head>
-        <tbody>
-            @foreach ($properties as $property )
-                <tr>
-                    <td>{{ $property->code}}</td>
-                    <td>{{ $property->designation}}</td>
-                    <td>{{ $property->numS}}</td>
-                </tr>
-                
-            @endforeach
-        </tbody>
-    </table>
-
-    {{ $properties->links()}}
-
-</div>
+        <div class="container">
+            <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;">
+        
+                <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
+                <head style="overflow-y:fixed">
+                    <tr>
+                        <th scope="col">Code article</th>
+                        <th scope="col">Désignation article</th>
+                        <th scope="col" class="text-end">Numéro série</th>
+                    </tr>
+                </head>
+                <tbody>
+                    @foreach ($properties as $property )
+                        <tr>
+                            
+                            <td>{{ $property->code}}</td>
+                            <td>{{ $property->designation}}</td>
+                            <td>{{ $property->numS}}</td>
+                        </tr>
+                        
+                    @endforeach
+                </tbody>
+            </table>
+        
+            {{-- {{ $properties->links()}} --}}
+        
+              </div>
+        
+        </div>
     
 
 </div>

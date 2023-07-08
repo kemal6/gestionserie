@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AfficheNumsRequest;
 use App\Http\Requests\CreateNumsRequest;
 use App\Http\Requests\Storenum_seriesRequest;
 use App\Http\Requests\Updatenum_seriesRequest;
@@ -32,12 +33,70 @@ class NumSeriesController extends Controller
     
     $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
     ->join('articles', 'num_series.article_id', 'articles.id')
-    ->orderBy('num_series.created_at','desc')->paginate(6);
+    ->orderBy('num_series.created_at','desc')->get();
+    //->paginate(6);
        
         return view('series.create',[
             'properties' => $numrs,
             'articles' => $articles
         ]);
+    }
+
+
+
+    public function afget()
+    {
+
+        $articles=articles::all(); 
+
+    
+    //---
+    
+    $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
+    ->join('articles', 'num_series.article_id', 'articles.id')
+    ->orderBy('num_series.created_at','desc')->get();
+    //->paginate(6);
+       
+        return view('series.anums',[
+            'properties' => $numrs,
+            'articles' => $articles
+        ]);
+    }
+    public function afpost(AfficheNumsRequest $request)
+    {
+        $credentials =  $request->validated();
+        
+        if(isset($credentials)){
+     
+
+
+            $codearticle=$request->input('article'); // val du champs article du form gnms
+
+
+            $a= articles::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
+            ->where('code', '=',$codearticle)
+            ->join('num_series', 'num_series.article_id', 'articles.id')
+            ->orderBy('num_series.created_at','desc')->get();
+
+            //return dd($a[0]->code);
+            //->paginate(6);
+
+            $articles=articles::all(); 
+
+                    
+                    return view('series.anums',[
+                        'properties' => $a,
+                        'articles' => $articles
+                    ]);
+            
+
+            
+        }
+        
+        return back()->withErrors([
+            'articles' => 'Désignation incorect'
+        ]);
+        
     }
 
     /**

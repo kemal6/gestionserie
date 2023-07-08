@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/','App\Http\Controllers\mainController@index')->name('index')->middleware('auth');
-Route::post('/','App\Http\Controllers\mainController@indexA')->name('indexA');
+Route::post('/','App\Http\Controllers\mainController@indexA')->name('indexA');//
 
 
 
@@ -79,6 +79,12 @@ Route::post('/new','App\Http\Controllers\mainController@store')->name('store'); 
 Route::get('/gens','App\Http\Controllers\NumSeriesController@create')->name('createns')->middleware('auth'); //route vers le ctrlr nomme create numserie :: form
 Route::post('/gens','App\Http\Controllers\NumSeriesController@store')->name('storens')->middleware('auth');; //route vers le ctrlr nomme create :: forrm soumis
 
+// Generation de num serie V
+Route::get('/afs','App\Http\Controllers\NumSeriesController@afget')->name('afget')->middleware('auth'); //route vers le ctrlr nomme create numserie :: form
+Route::post('/afs','App\Http\Controllers\NumSeriesController@afpost')->name('afpost')->middleware('auth');; //route vers le ctrlr nomme create :: forrm soumis
+
+
+
 
 // creation d'article V
 // Route::get('/newA','App\Http\Controllers\mainController@createA')->name('createA')->middleware('auth'); 
@@ -95,10 +101,10 @@ Route::get('/listns','App\Http\Controllers\mainController@listns')->name('listns
 
 // affiche ts les num ser V
 Route::get('affns/', function () {
-    return num_series::all();
+    //return num_series::all();
 })->name('affns');
 
-Route::post('/affns','App\Http\Controllers\mainController@indexA')->name('indexA')->middleware('auth');
+//Route::post('/affns','App\Http\Controllers\mainController@indexA')->name('indexA')->middleware('auth');
 
 
 Route::get('affus/', function () {

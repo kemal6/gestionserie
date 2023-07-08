@@ -59,29 +59,35 @@
     
     <div class="container">
     
-            <table class="table table-striped" style="margin-top: 20px">
-            <head>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;">
+    
+        <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
+        <head style="overflow-y:fixed">
+            <tr>
+                <th scope="col">Code article</th>
+                <th scope="col">Désignation article</th>
+                <th class="text-end">Plan</th>
+            </tr>
+        </head>
+        <tbody>
+            @foreach ($properties as $property )
                 <tr>
-                    <th>Code article </th>
-                    <th>Désignation  </th>
-                    <th class="text-end">Plan</th>
-                </tr>
-            </head>
-            <tbody>
-                @foreach ($properties as $property )
-                    <tr>
-                        <td>{{ $property->code}}</td>
-                        <td>{{ $property->designation}}</td>
-                        <td>{{ $property->plan}}</td>
-                    </tr>
                     
-                @endforeach
-            </tbody>
-        </table>
-    
-        {{ $properties->links()}}
-    
+                    <td>{{ $property->code}}</td>
+                    <td>{{ $property->designation}}</td>
+                    <td>{{ $property->plan}}</td>
+                </tr>
+                
+            @endforeach
+        </tbody>
+    </table>
+
+    {{-- {{ $properties->links()}} --}}
+
+      </div>
     </div>
+
+</div>
     
 
 </div>

@@ -16,7 +16,8 @@ class PlansController extends Controller
         //
         
         $prop= plans::select('plans.created_at','plans.code as code','plans.intitule as intitule')
-        ->orderBy('plans.created_at','desc')->paginate(6);
+        ->orderBy('plans.created_at','desc')->get();
+        //->paginate(6);
     
         //---
             

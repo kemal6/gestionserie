@@ -15,7 +15,7 @@
         <div class="row justify-content-md-center">
     
             <div class="col">
-                <form action="{{ route('afpost')}}" method="post" class="form-inline">
+                <form action="{{route('afpost')}}" method="post" class="form-inline">
                     @csrf
 
                     <button class="btn btn-primary my-2 my-sm-0" type="submit" style="margin-right: 15px">Afficher</button>  
@@ -65,7 +65,7 @@
     </div>
     
     <div class="container">
-        <div class=" scrollbar-primary" style="overflow-y:scroll;height:400px;">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;">
     
             <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
             <head style="overflow-y:fixed">
@@ -93,9 +93,8 @@
           </div>
     
     </div>
-    
 
-</div>
+  </div>
 
 
 

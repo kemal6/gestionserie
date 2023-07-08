@@ -30,7 +30,8 @@ class ArticlesController extends Controller
         //---
         
         $prop= articles::select('articles.created_at','articles.plan_id','plans.id','articles.designation as designation','articles.code as code','plans.id','plans.code as plan')
-        ->join('plans', 'articles.plan_id', 'plans.id')->orderBy('articles.created_at','desc')->paginate(6);
+        ->join('plans', 'articles.plan_id', 'plans.id')->orderBy('articles.created_at','desc')->get();
+        //->paginate(6);
            
             return view('series.createA',[
                 'plans' => $plans,

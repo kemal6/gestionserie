@@ -51,7 +51,8 @@ class mainController extends Controller
     
     $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
     ->join('articles', 'num_series.article_id', 'articles.id')
-    ->orderBy('num_series.created_at','desc')->paginate(6);
+    ->orderBy('num_series.created_at','desc')->get();
+    //->paginate(6);
        
         return view('series.serieindex',[
             'properties' => $numrs,
@@ -88,13 +89,14 @@ class mainController extends Controller
             $a= articles::select('*')
             ->where('code', '=',$codearticle)
             ->join('num_series', 'num_series.article_id', 'articles.id')
-            ->paginate(6);
+            ->orderBy('num_series.created_at','desc')->get();
+            //->paginate(6);
             //$images=Page::select('*')->where('type','GALLERY')->paginate(2);
 
             $articles=articles::all(); 
 
                     
-                    return view('series.serieindex',[
+                    return view('series.anums',[
                         'properties' => $a,
                         'articles' => $articles
                     ]);
@@ -213,7 +215,7 @@ DB::rollback();
 // }
   
 
-    return redirect()->route('index')->with('succes',"Importation réussie");;
+    return redirect()->route('index')->with('succes',"Importation réussie");
 
     
  //return dump($request->file1);     
