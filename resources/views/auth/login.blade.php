@@ -1,6 +1,17 @@
 
  {{-- OK --}}
 
+ <?php
+ //On init
+ session_start();
+ $_SESSION['openA'] = 0;
+ $_SESSION['openGS'] = 0;
+ $_SESSION['openS'] = 0;
+ $_SESSION['openP'] = 0;
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

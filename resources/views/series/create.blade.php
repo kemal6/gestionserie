@@ -72,7 +72,14 @@
     
     </div>
     
-    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;">
+    <div 
+    {{-- class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;" --}}
+    >
+
+    <?php
+
+            if($init==true){
+                ?>
     
         <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
         <head style="overflow-y:fixed">
@@ -83,18 +90,26 @@
             </tr>
         </head>
         <tbody>
-            @foreach ($properties as $property )
-                <tr>
-                    
-                    <td>{{ $property->code}}</td>
-                    <td>{{ $property->designation}}</td>
-                    <td>{{ $property->numS}}</td>
-                </tr>
+           
+            
+
+                @foreach ($properties as $property )
+            <tr>
                 
-            @endforeach
+                <td>{{ $property->code}}</td>
+                <td>{{ $property->designation}}</td>
+                <td>{{ $property->numS}}</td>
+            </tr>
+            
+        @endforeach
+
+           
         </tbody>
     </table>
-
+    <?php
+    $_SESSION['openS'] = 0;
+}
+?>
     {{-- {{ $properties->links()}} --}}
 
       </div>

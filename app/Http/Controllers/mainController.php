@@ -34,7 +34,7 @@ use SQLConnection;
 use System;
 //use System.Data.SqlClient;
 
-
+session_start();
 
 class mainController extends Controller
 {
@@ -43,6 +43,7 @@ class mainController extends Controller
     //
 
     public function index(): View {
+
 
         $articles=articles::all(); 
 
@@ -61,6 +62,8 @@ class mainController extends Controller
 
         //----
 
+
+
         //return view('series.serieindex');
     }
 
@@ -70,6 +73,19 @@ class mainController extends Controller
         $credentials =  $request->validated();
         
         if(isset($credentials)){
+
+
+
+
+            ///------------ici
+
+
+
+            
+
+
+
+            //////--------ici
      
 
 

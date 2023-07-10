@@ -43,11 +43,11 @@
                         @csrf       
                         <button class="btn btn-outline-success" type="submit">Exporter</button> 
                     </form>
-                    <h6>_</h6>        
+                    {{-- <h6>_</h6>        
                     <form action="{{ route('fimport')}}" method="get" >      
                         @csrf  
                         <button class="btn btn-outline-success" type="submit">Importer</button> 
-                    </form> 
+                    </form>  --}}
     
                 </div>
     
@@ -67,6 +67,10 @@
     <div class="container">
         <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;">
     
+            <?php
+                if($init==true){
+                    ?>
+
             <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
             <head style="overflow-y:fixed">
                 <tr>
@@ -87,6 +91,10 @@
                 @endforeach
             </tbody>
         </table>
+        <?php
+    $_SESSION['openS'] = 0;
+}
+?>
     
         {{-- {{ $properties->links()}} --}}
     

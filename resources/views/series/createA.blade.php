@@ -43,6 +43,14 @@
         <input type="text" name="designation" value="{{ old('designation','stylo')}}" style="margin-right: 15px">
     </div>
 
+    <div>
+        @error("designation")
+        {{$message}}
+    @enderror          
+    <label for="lastns" style="color: rgb(38, 73, 190);font-weight: bold;">Dernier numéro de série</label>    
+        <input type="text" name="lastns" value="{{ old('lastns','')}}" style="margin-right: 15px">
+    </div>
+
    
     
  
@@ -57,35 +65,49 @@
 
 
     
-    <div class="container">
+     <div class="container">
     
-    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;">
+    <div
+     {{-- class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;" --}}
+     >
+     <?php
+                if($init==true){
+                    ?>
     
         <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
         <head style="overflow-y:fixed">
             <tr>
                 <th scope="col">Code article</th>
                 <th scope="col">Désignation article</th>
-                <th class="text-end">Plan</th>
+                <th class="text-end">Dernier numéro de série</th>
             </tr>
         </head>
         <tbody>
-            @foreach ($properties as $property )
+            
+
+                    @foreach ($properties as $property )
                 <tr>
                     
                     <td>{{ $property->code}}</td>
                     <td>{{ $property->designation}}</td>
-                    <td>{{ $property->plan}}</td>
+                    <td>{{ $property->lastns}}</td>
                 </tr>
                 
             @endforeach
+
+               
+            
         </tbody>
     </table>
-
+    <?php
+    $_SESSION['openA'] = 0;
+}
+?>
     {{-- {{ $properties->links()}} --}}
 
       </div>
     </div>
+     
 
 </div>
     

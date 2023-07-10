@@ -8,6 +8,9 @@ use App\Http\Requests\UpdatearticlesRequest;
 use App\Models\articles;
 use App\Models\plans;
 
+
+session_start();
+
 class ArticlesController extends Controller
 {
     /**
@@ -28,15 +31,49 @@ class ArticlesController extends Controller
 
     
         //---
-        
-        $prop= articles::select('articles.created_at','articles.plan_id','plans.id','articles.designation as designation','articles.code as code','plans.id','plans.code as plan')
-        ->join('plans', 'articles.plan_id', 'plans.id')->orderBy('articles.created_at','desc')->get();
-        //->paginate(6);
+
+        if($_SESSION['openA'] == 0){
+            $init=false;
+            // dd($init );
+
+            $i=0;
+
+            
+            $prop=[''];
            
             return view('series.createA',[
                 'plans' => $plans,
-                'properties' => $prop
+                'properties' => $prop,
+                'init' => $init
             ]);
+
+
+        }
+        else{
+
+            
+
+            $prop= articles::select('articles.created_at','articles.plan_id','articles.lastns','plans.id','articles.designation as designation','articles.code as code','plans.id','plans.code as plan')
+        ->join('plans', 'articles.plan_id', 'plans.id')->orderBy('articles.created_at','desc')->first();
+
+        //dd($prop->code);
+        $a=array();
+        array_push($a,$prop);        
+        //dd($a);  
+        //->paginate(6);
+
+
+           
+            return view('series.createA',[
+                'plans' => $plans,
+                'properties' => $a,
+                'init' => true
+            ]);
+
+
+        }
+        
+        
     }
 
     /**
@@ -83,7 +120,7 @@ class ArticlesController extends Controller
         ]
     );
     
-
+    $_SESSION['openA']=$_SESSION['openA']+ 1;
 
         
        // finfor

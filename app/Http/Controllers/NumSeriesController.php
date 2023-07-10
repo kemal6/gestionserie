@@ -10,6 +10,7 @@ use App\Models\articles;
 use App\Models\num_series;
 use Illuminate\Support\Facades\Auth;
 
+session_start();
 class NumSeriesController extends Controller
 {
     /**
@@ -29,17 +30,67 @@ class NumSeriesController extends Controller
         $articles=articles::all(); 
 
     
-    //---
+    // //---
     
-    $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
-    ->join('articles', 'num_series.article_id', 'articles.id')
-    ->orderBy('num_series.created_at','desc')->get();
-    //->paginate(6);
+    // $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
+    // ->join('articles', 'num_series.article_id', 'articles.id')
+    // ->orderBy('num_series.created_at','desc')->get();
+    // //->paginate(6);
        
-        return view('series.create',[
-            'properties' => $numrs,
-            'articles' => $articles
-        ]);
+    //     return view('series.create',[
+    //         'properties' => $numrs,
+    //         'articles' => $articles
+    //     ]);
+
+
+
+        ////// ici
+
+
+if($_SESSION['openS'] == 0){
+    $init=false;
+    // dd($init );
+
+    $i=0;
+
+    
+    $prop=[''];
+    //$articles=articles::all();    
+
+    return view('series.create',[
+        'properties' => $prop,
+        'articles' => $articles,
+        'init' => $init
+    ]);
+
+
+}
+else{
+
+    
+   // $articles=articles::all(); 
+    $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
+->join('articles', 'num_series.article_id', 'articles.id')
+->orderBy('num_series.created_at','desc')->first();
+
+
+//dd($prop->code);
+$a=array();
+array_push($a,$numrs);        
+//dd($a);  
+//->paginate(6);
+
+$init=true;
+   
+return view('series.create',[
+        'properties' => $a,
+        'articles' => $articles,
+        'init' => $init
+    ]);
+
+
+
+}
     }
 
 
@@ -50,17 +101,72 @@ class NumSeriesController extends Controller
         $articles=articles::all(); 
 
     
-    //---
+    // //---
     
-    $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
-    ->join('articles', 'num_series.article_id', 'articles.id')
-    ->orderBy('num_series.created_at','desc')->get();
-    //->paginate(6);
+    // $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
+    // ->join('articles', 'num_series.article_id', 'articles.id')
+    // ->orderBy('num_series.created_at','desc')->get();
+    // //->paginate(6);
        
-        return view('series.anums',[
-            'properties' => $numrs,
-            'articles' => $articles
-        ]);
+    //     return view('series.anums',[
+    //         'properties' => $numrs,
+    //         'articles' => $articles
+    //     ]);
+    
+    
+    
+            ////// ici
+
+
+if($_SESSION['openS'] == 0){
+    $init=false;
+    // dd($init );
+
+    $i=0;
+
+    
+    $prop=[''];
+    //$articles=articles::all();    
+
+    return view('series.anums',[
+        'properties' => $prop,
+        'articles' => $articles,
+        'init' => $init
+    ]);
+
+
+}
+else{
+
+    
+   // $articles=articles::all(); 
+    $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
+->join('articles', 'num_series.article_id', 'articles.id')
+->orderBy('num_series.created_at','desc')->first();
+
+
+//dd($prop->code);
+$a=array();
+array_push($a,$numrs);        
+//dd($a);  
+//->paginate(6);
+
+$init=true;
+   
+return view('series.anums',[
+        'properties' => $a,
+        'articles' => $articles,
+        'init' => $init
+    ]);
+
+
+
+}
+    
+    
+    
+    
+    
     }
     public function afpost(AfficheNumsRequest $request)
     {
@@ -76,10 +182,11 @@ class NumSeriesController extends Controller
             $a= articles::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
             ->where('code', '=',$codearticle)
             ->join('num_series', 'num_series.article_id', 'articles.id')
-            ->orderBy('num_series.created_at','desc')->get();
+            ->orderBy('num_series.created_at','desc')->first();
 
             //return dd($a[0]->code);
             //->paginate(6);
+            
 
             $articles=articles::all(); 
 
@@ -88,6 +195,10 @@ class NumSeriesController extends Controller
                         'properties' => $a,
                         'articles' => $articles
                     ]);
+
+
+
+                    
             
 
             
@@ -185,6 +296,8 @@ class NumSeriesController extends Controller
         );
 
         $p=$p+1;
+        $_SESSION['openS']=$_SESSION['openS']+ 1;
+
 
     }
 

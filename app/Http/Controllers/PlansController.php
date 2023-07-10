@@ -7,23 +7,54 @@ use App\Models\articles;
 use App\Models\plans;
 use Illuminate\Http\Request;
 
+session_start();
+
+
 class PlansController extends Controller
 {
     //
 
     public function create()
     {
+                
         //
-        
-        $prop= plans::select('plans.created_at','plans.code as code','plans.intitule as intitule')
-        ->orderBy('plans.created_at','desc')->get();
-        //->paginate(6);
+
+
     
         //---
-            
+
+        if( $_SESSION['openP'] == 0){
+            // dd($init );
+
+            $prop=[''];
+           
             return view('series.createP',[
-                'properties' => $prop
+                'properties' => $prop,
+                'init' =>false,
             ]);
+
+        }
+        else{
+
+
+        $prop= plans::select('plans.created_at','plans.code as code','plans.intitule as intitule')
+        ->orderBy('plans.created_at','desc')->first();
+
+        //dd($prop->code);
+        $a=array();
+        array_push($a,$prop);        
+        //dd($a);  
+        //->paginate(6);
+
+
+           
+        return view('series.createP',[
+                'properties' => $a,
+                'init' => true
+            ]);
+
+
+        }
     }
 
 
@@ -56,6 +87,9 @@ class PlansController extends Controller
         'intitule' => $intitule
         ]
     );
+
+    $_SESSION['openP']=$_SESSION['openP']+ 1;
+
     
 
 

@@ -43,11 +43,11 @@
                         @csrf       
                         <button class="btn btn-outline-success" type="submit">Exporter</button> 
                     </form>
-                    <h6>_</h6>        
-                    <form action="{{ route('fimport')}}" method="get" >      
+                    {{-- <h6>_</h6>         --}}
+                    {{-- <form action="{{ route('fimport')}}" method="get" >      
                         @csrf  
                         <button class="btn btn-outline-success" type="submit">Importer</button> 
-                    </form> 
+                    </form>  --}}
     
                 </div>
     
@@ -96,6 +96,7 @@
     
 
 </div>
+
 
 
 

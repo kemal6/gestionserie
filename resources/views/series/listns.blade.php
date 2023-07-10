@@ -42,11 +42,11 @@
                         @csrf       
                         <button class="btn btn-outline-success" type="submit">Exporter</button> 
                     </form>
-                    <h6>_</h6>        
+                    {{-- <h6>_</h6>        
                     <form action="{{ route('fimport')}}" method="get" >      
                         @csrf  
                         <button class="btn btn-outline-success" type="submit">Importer</button> 
-                    </form> 
+                    </form>  --}}
     
                 </div>
     
@@ -65,7 +65,9 @@
     
     <div class="container">
         <div class="container">
-            <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;">
+            <div 
+            class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;"
+            >
         
                 <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
                 <head style="overflow-y:fixed">
@@ -76,15 +78,31 @@
                     </tr>
                 </head>
                 <tbody>
-                    @foreach ($properties as $property )
-                        <tr>
-                            
-                            <td>{{ $property->code}}</td>
-                            <td>{{ $property->designation}}</td>
-                            <td>{{ $property->numS}}</td>
-                        </tr>
+    
+
+                    <?php
+
+                    if($init==true){
+                        ?>
+    
+                        @foreach ($properties as $property )
+                    <tr>
                         
-                    @endforeach
+                        <td>{{ $property->code}}</td>
+                        <td>{{ $property->designation}}</td>
+                        <td>{{ $property->numS}}</td>
+                    </tr>
+                    
+                @endforeach
+    
+                   <?php
+                           $_SESSION['openA'] = 0;
+    
+                   }
+    
+    
+                ?>
+                    
                 </tbody>
             </table>
         

@@ -46,7 +46,13 @@
 
 
     <div class="container">
-        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;">
+        <div
+         {{-- class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;" --}}
+         >
+         <?php
+
+                if($init==true){
+                    ?>
     
             <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
             <head style="overflow-y:fixed">
@@ -56,16 +62,26 @@
                 </tr>
             </head>
             <tbody>
-                @foreach ($properties as $property )
+            
+                
+
+                    @foreach ($properties as $property )
                 <tr>
+                    
                     <td>{{ $property->code}}</td>
                     <td>{{ $property->intitule}}</td>
+                   
                 </tr>
-                    
-                @endforeach
+                
+            @endforeach
+
+               
             </tbody>
         </table>
-    
+        <?php
+        $_SESSION['openP'] = 0;
+}
+?>
         {{-- {{ $properties->links()}} --}}
     
           </div>
