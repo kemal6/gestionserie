@@ -8,6 +8,7 @@ use App\Http\Requests\Storenum_seriesRequest;
 use App\Http\Requests\Updatenum_seriesRequest;
 use App\Models\articles;
 use App\Models\num_series;
+use App\Models\plans;
 use Illuminate\Support\Facades\Auth;
 
 session_start();
@@ -118,7 +119,7 @@ return view('series.create',[
             ////// ici
 
 
-if($_SESSION['openS'] == 0){
+if($_SESSION['openS'] == 0){ // 1ere arrivée de l'user sur la page
     $init=false;
     // dd($init );
 
@@ -170,19 +171,184 @@ return view('series.anums',[
     }
     public function afpost(AfficheNumsRequest $request)
     {
+
+        
         $credentials =  $request->validated();
         
         if(isset($credentials)){
+
+
+            
      
 
 
             $codearticle=$request->input('article'); // val du champs article du form gnms
+            $date=$request->input('date'); // string sous la forme  yyyy-mm-dd 
+            $usr=$request->input('usr'); //
+            
+            //$tabdate=str_split($date);
 
 
-            $a= articles::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
+
+            $tabdate=explode('-',$date);
+
+
+
+
+            // $tabdate=array_reverse($tabdate);
+            // $date=implode($tabdate);
+
+
+            if( isset($codearticle) && isset($date) && isset($usr) )
+            {
+                $date=$tabdate[0].'-'.$tabdate[2].'-'.$tabdate[1];
+
+               // dd($date.$usr.$codearticle);
+
+
+                $af= articles::select('num_series.created_at','num_series.user_id as user','articles.designation as designation','num_series.numS as numS','articles.code as code')
+                ->where('code', '=',$codearticle)
+                ->where('users.name','=',$usr)
+                ->whereDate('num_series.created_at',$date)
+                ->join('num_series', 'num_series.article_id', 'articles.id')
+                ->join('users', 'users.id', 'num_series.user_id')
+                ->orderBy('num_series.created_at','desc')->get(); 
+
+                $articles=articles::all(); 
+
+
+                return view('series.anums',[
+                    'properties' => $af,
+                    'articles' => $articles,
+                    'init' => true
+                ]);
+            }
+            elseif (isset($codearticle) && isset($date)) { //manipula date
+                # code...
+                $date=$tabdate[0].'-'.$tabdate[2].'-'.$tabdate[1];
+
+                $af= articles::select('num_series.created_at','num_series.user_id as user','articles.designation as designation','num_series.numS as numS','articles.code as code')
+                ->where('code', '=',$codearticle)
+                ->whereDate('num_series.created_at',$date)
+                ->join('num_series', 'num_series.article_id', 'articles.id')
+                //->join('users', 'users.id', 'num_series.user_id')
+                ->orderBy('num_series.created_at','desc')->get(); 
+
+                $articles=articles::all(); 
+
+
+                return view('series.anums',[
+                    'properties' => $af,
+                    'articles' => $articles,
+                    'init' => true
+                ]);
+           
+            }elseif (isset($codearticle) && isset($usr)) {
+                
+                $af= articles::select('num_series.user_id as user','articles.designation as designation','num_series.numS as numS','articles.code as code')
+                ->where('code', '=',$codearticle)
+                ->where('users.name','=',$usr)
+                ->join('num_series', 'num_series.article_id', 'articles.id')
+                ->join('users', 'users.id', 'num_series.user_id')
+                ->orderBy('num_series.created_at','desc')->get();   
+
+                $articles=articles::all(); 
+
+
+                return view('series.anums',[
+                    'properties' => $af,
+                    'articles' => $articles,
+                    'init' => true
+                ]);
+
+                   // dd($a);
+
+            }elseif (isset($user) && isset($date)) {
+                # code...
+                $date=$tabdate[0].'-'.$tabdate[2].'-'.$tabdate[1];
+                
+                $af= articles::select('num_series.created_at','num_series.user_id as user','articles.designation as designation','num_series.numS as numS','articles.code as code')
+                ->where('user', '=',$usr)
+                ->whereDate('num_series.created_at',$date)
+                ->join('num_series', 'num_series.article_id', 'articles.id')
+                //->join('users', 'users.id', 'num_series.user_id')
+                ->orderBy('num_series.created_at','desc')->get();   
+
+                $articles=articles::all(); 
+
+
+                return view('series.anums',[
+                    'properties' => $af,
+                    'articles' => $articles,
+                    'init' => true
+                ]);
+
+
+            }elseif(isset($codearticle))
+            {
+                $a= articles::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
             ->where('code', '=',$codearticle)
             ->join('num_series', 'num_series.article_id', 'articles.id')
-            ->orderBy('num_series.created_at','desc')->first();
+            ->orderBy('num_series.created_at','desc')->get();
+               // dd($codearticle);
+
+               $articles=articles::all(); 
+
+
+               return view('series.anums',[
+                   'properties' => $a,
+                   'articles' => $articles,
+                   'init' => true
+               ]);
+
+
+            }elseif(isset($date))
+            {
+                $date=$tabdate[0].'-'.$tabdate[2].'-'.$tabdate[1];
+
+                $af= articles::select('num_series.created_at','num_series.user_id as user','articles.designation as designation','num_series.numS as numS','articles.code as code')
+                ->whereDate('num_series.created_at',$date)
+                ->join('num_series', 'num_series.article_id', 'articles.id')
+                //->join('users', 'users.id', 'num_series.user_id')
+                ->orderBy('num_series.created_at','desc')->get(); 
+                $articles=articles::all(); 
+
+
+                return view('series.anums',[
+                    'properties' => $af,
+                    'articles' => $articles,
+                    'init' => true
+                ]);
+
+
+            }elseif(isset($usr))
+            {
+                $a= articles::select('user_id','articles.designation as designation','num_series.numS as numS','articles.code as code')
+            ->where('user_id', '=',$usr)
+            ->join('num_series', 'num_series.article_id', 'articles.id')
+            ->orderBy('num_series.created_at','desc')->get();
+                //dd($usr);
+
+                $articles=articles::all(); 
+
+
+                return view('series.anums',[
+                    'properties' => $a,
+                    'articles' => $articles,
+                    'init' => true
+                ]);
+
+
+            }else{
+
+                return back()->withErrors([
+                    'articles' => 'Champs mals remplis'
+                ]);
+
+            }
+
+
+            
 
             //return dd($a[0]->code);
             //->paginate(6);
@@ -202,7 +368,7 @@ return view('series.anums',[
             
 
             
-        }
+        } // fin if credentiels
         
         return back()->withErrors([
             'articles' => 'Désignation incorect'

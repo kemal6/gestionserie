@@ -43,6 +43,7 @@ class mainController extends Controller
     //
 
     public function index(): View {
+        
 
 
         $articles=articles::all(); 

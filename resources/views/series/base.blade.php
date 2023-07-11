@@ -44,13 +44,18 @@
         
             <ul class="navbar-nav mr-auto mt-2 mt-md-0">
                 <li class="nav-item">
-                    <a href="{{ route('index')}}" class="nav-link">
+                    <a href="{{ route('afpost')}}" class="nav-link">
                         Afficher des numéros de séries
                     </a>                
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('createns')}}" class="nav-link">
                         Générer des numéros de séries
+                    </a>                
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('affA')}}" class="nav-link">
+                        Afficher des articles
                     </a>                
                 </li>                  
                 <li class="nav-item">

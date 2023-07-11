@@ -20,14 +20,26 @@
 
                     <button class="btn btn-primary my-2 my-sm-0" type="submit" style="margin-right: 15px">Afficher</button>  
                     <div>
-                        <label for="article" style="color: rgb(38, 73, 190);font-weight: bold;">Code_article</label>
-                            <select name="article" id="article">
+                        <label for="article" style="color: rgb(38, 73, 190);font-weight: bold;margin-right:30px">Code_article</label>
+                            <select name="article" id="article" style="margin-right: 30px">
                                 @foreach($articles as $a)
                                     <option value="{{ $a->code }}">{{ $a->code }}</option>
                                 @endforeach
                             </select>
                 
-                    </div>                    
+                    </div>
+                    
+                    <div>
+                        <label for="date" style="color: rgb(38, 73, 190);font-weight: bold;">Date</label>
+                            <input type="date" name="date" id="date" style="margin-right: 30px">
+                
+                    </div>
+                    <div>
+                        <label for="usr" style="color: rgb(38, 73, 190);font-weight: bold;">Utilisateur</label>
+                            <input type="text" name="usr" value="azer" id="usr">
+                
+                    </div>
+
                     <div>
                         @error("article")
                             {{$message}}
@@ -65,11 +77,15 @@
     </div>
     
     <div class="container">
-        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;">
+        
     
             <?php
                 if($init==true){
                     ?>
+
+                <div 
+                class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;"
+                >
 
             <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
             <head style="overflow-y:fixed">
@@ -91,6 +107,7 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
         <?php
     $_SESSION['openS'] = 0;
 }
@@ -98,7 +115,7 @@
     
         {{-- {{ $properties->links()}} --}}
     
-          </div>
+          
     
     </div>
 

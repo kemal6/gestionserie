@@ -22,7 +22,7 @@ class AfficheNumsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'article' => ['required'],
+            //'article' => ['required'],
             //
         ];
     }

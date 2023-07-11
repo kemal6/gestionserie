@@ -8,36 +8,26 @@
 
     <div class= "container">
         <div class="">
-            <h1 style="margin-bottom: 30px">Afficher des numéros de série</h1>
+            <h1 style="margin-bottom: 30px">Afficher des articles</h1>
         </div>
     
         
         <div class="row justify-content-md-center">
     
             <div class="col">
-                <form action="{{ route('afpost')}}" method="post" class="form-inline">
+                <form action="{{route('afapost')}}" method="post" class="form-inline">
                     @csrf
 
-                    <button class="btn btn-primary my-2 my-sm-0" type="submit" style="margin-right: 20px">Afficher</button>  
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit" style="margin-right: 15px">Afficher</button>  
                     <div>
-                        <label for="article" style="color: rgb(38, 73, 190);font-weight: bold;margin-right:30px">Code_article</label>
-                            <select name="article" id="article" style="margin-right: 30px">
+                        <label for="article" style="color: rgb(38, 73, 190);font-weight: bold;">Code_article</label>
+                            <select name="article" id="article">
                                 @foreach($articles as $a)
                                     <option value="{{ $a->code }}">{{ $a->code }}</option>
                                 @endforeach
                             </select>
                 
-                    </div> 
-                    <div>
-                        <label for="date" style="color: rgb(38, 73, 190);font-weight: bold;">Date</label>
-                            <input type="date" name="date" id="date" style="margin-right: 30px">
-                
-                    </div>
-                    <div>
-                        <label for="usr" style="color: rgb(38, 73, 190);font-weight: bold;">Utilisateur</label>
-                            <input type="text" name="usr" value="azer" id="usr">
-                
-                    </div>                   
+                    </div>                    
                     <div>
                         @error("article")
                             {{$message}}
@@ -53,8 +43,8 @@
                         @csrf       
                         <button class="btn btn-outline-success" type="submit">Exporter</button> 
                     </form>
-                    {{-- <h6>_</h6>         --}}
-                    {{-- <form action="{{ route('fimport')}}" method="get" >      
+                    {{-- <h6>_</h6>        
+                    <form action="{{ route('fimport')}}" method="get" >      
                         @csrf  
                         <button class="btn btn-outline-success" type="submit">Importer</button> 
                     </form>  --}}
@@ -75,8 +65,12 @@
     </div>
     
     <div class="container">
-        <div class=" scrollbar-primary" style="overflow-y:scroll;height:400px;">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;">
     
+            <?php
+                if($init==true){
+                    ?>
+
             <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
             <head style="overflow-y:fixed">
                 <tr>
@@ -97,16 +91,18 @@
                 @endforeach
             </tbody>
         </table>
+        <?php
+    $_SESSION['openS'] = 0;
+}
+?>
     
         {{-- {{ $properties->links()}} --}}
     
           </div>
     
     </div>
-    
 
-</div>
-
+  </div>
 
 
 

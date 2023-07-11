@@ -20,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/','App\Http\Controllers\mainController@index')->name('index')->middleware('auth');
-Route::post('/','App\Http\Controllers\mainController@indexA')->name('indexA');//
+// Route::get('/','App\Http\Controllers\NumSeriesController@afget')->name('index')->middleware('auth');
+// Route::post('/','App\Http\Controllers\NumSeriesController@afpost')->name('indexA');//
 
 
 
@@ -76,8 +76,8 @@ Route::post('/new','App\Http\Controllers\mainController@store')->name('store'); 
 
 
 // Generation de num serie V
-Route::get('/gens','App\Http\Controllers\NumSeriesController@create')->name('createns')->middleware('auth'); //route vers le ctrlr nomme create numserie :: form
-Route::post('/gens','App\Http\Controllers\NumSeriesController@store')->name('storens')->middleware('auth');; //route vers le ctrlr nomme create :: forrm soumis
+Route::get('/','App\Http\Controllers\NumSeriesController@create')->name('createns')->middleware('auth'); //route vers le ctrlr nomme create numserie :: form
+Route::post('/','App\Http\Controllers\NumSeriesController@store')->name('storens')->middleware('auth');; //route vers le ctrlr nomme create :: forrm soumis
 
 // Generation de num serie V
 Route::get('/afs','App\Http\Controllers\NumSeriesController@afget')->name('afget')->middleware('auth'); //route vers le ctrlr nomme create numserie :: form
@@ -115,6 +115,9 @@ Route::get('affus/', function () {
 Route::get('affA/', function () {
     return articles::all();
 })->name('affA');
+Route::post('affA/', function () {
+    return articles::all();
+})->name('affAp');
 
 // affiche ts les art V
 Route::get('affp/', function () {

@@ -45,7 +45,7 @@ class AuthController extends Controller
 
 
                 $request->session()->regenerate();
-                return redirect()->intended(route('index'));
+                return redirect()->intended(route('createns'));
             }
         
         return back()->withErrors([
