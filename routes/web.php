@@ -91,6 +91,9 @@ Route::post('/afs','App\Http\Controllers\NumSeriesController@afpost')->name('afp
 // Route::post('/newA','App\Http\Controllers\mainController@storeA')->name('storeA'); 
 Route::get('/newA','App\Http\Controllers\ArticlesController@create')->name('createA')->middleware('auth'); 
 Route::post('/newA','App\Http\Controllers\ArticlesController@store')->name('storeA'); 
+Route::post('/modifA','App\Http\Controllers\ArticlesController@update')->name('updateA'); 
+
+
 
 //creation de plan
 Route::get('/newP','App\Http\Controllers\PlansController@create')->name('createP')->middleware('auth'); 

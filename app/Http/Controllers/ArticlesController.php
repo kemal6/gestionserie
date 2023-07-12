@@ -101,12 +101,12 @@ class ArticlesController extends Controller
     $codearticle=$request->input('code'); // val du champs article du form gnms
     $plan=$request->input('plan');
     $ns=$request->input('lastns');
-
-    if(isset($ns) ){
-        $lastns=$ns;
-    }else{
-        $lastns="";
-    }
+    $lastns=$ns;
+    // if(!isset($ns) ){
+    //     $lastns=$ns;
+    // }else{
+    //     $lastns="";
+    // }
     
 
 
@@ -490,7 +490,7 @@ class ArticlesController extends Controller
                 
                     }  
             }else{ // non loggé ou expiré
-                return redirect()->route('login');            
+                return redirect()->route('auth.login');            
             }
     
     }      
@@ -521,7 +521,135 @@ class ArticlesController extends Controller
      */
     public function update(UpdatearticlesRequest $request, articles $articles)
     {
-        //
+
+        $c= $request->validated( );
+
+
+          
+        $designarticle=$request->input('designation'); // val du champs article du form gnms
+        $codearticle=$request->input('code'); // val du champs article du form gnms
+        $plan=$request->input('plan');
+        $ns=$request->input('lastns');
+        $lastns=$ns;
+
+        //dd($designarticle." *** ".$codearticle." *** ".$plan." *** ".$ns);
+    
+        // if(isset($ns) ){
+        //     $lastns=$ns;
+        // }else{
+        //     $lastns="";
+        // }
+        
+    
+    
+        $a= articles::select('articles.code')
+        ->where('articles.code','=',$codearticle)->first();
+    
+        $valueToCheckcode =$codearticle;
+    
+    
+          $resultcode = DB::table('articles')
+            ->whereRaw("code COLLATE SQL_Latin1_General_CP1_CS_AS = '$valueToCheckcode'")
+            ->exists();
+    
+        $valueToChecknums =$lastns;
+    
+        $resultnums = DB::table('num_series')
+            ->whereRaw("numS COLLATE SQL_Latin1_General_CP1_CS_AS = '$valueToChecknums'")
+            ->exists();
+    
+    
+        $b= articles::select('articles.code as code','articles.id as ida') //codea equiv dans la bd
+        ->where('articles.code', '=',$codearticle)->orderBy('articles.id')->first();
+
+        // $lns= articles::select('articles.code as code','articles.lastns as lans','articles.id') //codea equiv dans la bd
+        // ->where('articles.code', '=',$codearticle)
+        // ->orderBy('articles.id')->first();
+
+        //dd($lns);
+    
+    
+    
+        if($resultcode && !$resultnums){ //si nums absent mais codea present 
+    
+    
+            $numser=$lastns;
+            $codear=$codearticle;
+    
+            $user=Auth::user();
+    
+            $ccode = substr($numser,0, strlen($codear)); //codea dans nums
+            $y1 = substr($numser,-6); // 6 derniers carac de nums
+            $y2 = substr($numser,-4); 
+    
+    
+            $t3=intval($y1)==$y1; // 6 derniers carac sont des entiers
+    
+            $t1=($ccode==$codear);
+    
+            $t2=($codear.$y1==$numser); // test de long de nums
+    
+            $t4=("23".$y2 == $y1);// format 23xxxx
+            //dd('ici');
+    
+            if($numser==""){
+
+                return redirect()->back()->with('error',"Numéro de série invalide..");
+
+                //$numser=$codear."230000";
+
+            }
+    
+            //dd($t4);
+    
+            if($t3 && $t1 && $t2 && $t4)
+            {
+               // $ida=$b->ida;
+                //$codea=$b->code;
+                //dd('super');
+    
+                //dd($plan." ".$codearticle." ".$designarticle." ".$numser);
+    
+                $art= articles::where('code',$codearticle)->first();
+                $art->plan_id=$plan;
+                //$art->code=$codearticle;
+                $art->designation=$designarticle;
+                $art->lastns=$numser;                
+                $art->save();
+
+                //  articles::create(
+                //     [
+                //         'plan_id' => $plan,
+                //         'code' => $codearticle,
+                //         'designation' => $designarticle,
+                //         'lastns' => $lastns,
+                //         // 'user_id' => $user->id, 
+                //          ]
+                //  );
+    
+                 return redirect()->back()->with('succes',"Opération réussie");
+    
+            }else{
+                //dd('reoog');
+                return redirect()->back()->with('error',"Valeurs incorrectes");
+    
+    
+            }
+    
+    
+    
+          
+    
+          
+    
+        }else{
+            //dd($lastns);
+    
+            return redirect()->back()->with('error',"Ce numéro de série est déja présent dans la base de donnée");
+    
+        }
+           
+    
     }
 
     /**
