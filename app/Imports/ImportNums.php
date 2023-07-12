@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\articles;
 use App\Models\num_series;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -93,11 +94,14 @@ class ImportNums implements ToModel, WithHeadingRow
                 $ida=$b->ida;
                 $codea=$b->code;
                 //dd('super');
+
+                $user=Auth::user();
+
     
                  return num_series::create(
                     ['numS' => $row['numeroserie'],
                 'article_id' => $ida,
-                'user_id' => 2,  ]
+                'user_id' => $user->id,  ]
                  );
 
             }else{

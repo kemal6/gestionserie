@@ -1,109 +1,114 @@
-{{-- OK --}}
 @extends('series.base')
+
 @section('title', 'GNSAPK')
 @section('content')
+<div>
+<div class="container">
+<h1 style="margin-bottom: 30px">Afficher un article</h1>
+          
+    <div class="row justify-content-md-center">
+    
+        <div class="col">
+<form action="" method="post" class="form-inline">
+    @csrf
 
+    
+    <button class="btn btn-primary" style="margin-right: 25px"> Afficher </button>
 
-<div >
+    <div>
+        <label for="plan" style="color: rgb(38, 73, 190);font-weight: bold;">Plan</label>
 
-    <div class= "container">
-        <div class="">
-            <h1 style="margin-bottom: 30px">Afficher des articles</h1>
-        </div>
-    
-        
-        <div class="row justify-content-md-center">
-    
-            <div class="col">
-                <form action="{{route('afapost')}}" method="post" class="form-inline">
-                    @csrf
+            <select name="plan" id="plan" style="margin-right: 15px">
+                @foreach($plans as $p)
+                    <option value="{{ $p->id }}">{{ $p->code }}</option>
+                @endforeach
+            </select>
 
-                    <button class="btn btn-primary my-2 my-sm-0" type="submit" style="margin-right: 15px">Afficher</button>  
-                    <div>
-                        <label for="article" style="color: rgb(38, 73, 190);font-weight: bold;">Code_article</label>
-                            <select name="article" id="article">
-                                @foreach($articles as $a)
-                                    <option value="{{ $a->code }}">{{ $a->code }}</option>
-                                @endforeach
-                            </select>
-                
-                    </div>                    
-                    <div>
-                        @error("article")
-                            {{$message}}
-                        @enderror 
-                    </div>
-                </form>
-           
-            </div>
+    </div>
+
     
-            <div class="col col-lg-2">
-                <div class="row">
-                    <form action="{{ route('export')}}" method="post"> 
-                        @csrf       
-                        <button class="btn btn-outline-success" type="submit">Exporter</button> 
-                    </form>
-                    {{-- <h6>_</h6>        
-                    <form action="{{ route('fimport')}}" method="get" >      
-                        @csrf  
-                        <button class="btn btn-outline-success" type="submit">Importer</button> 
-                    </form>  --}}
-    
-                </div>
-    
-            </div>
-    
-        </div>
-    
-    
-        <div class="container">
-            
-        </div>
-    
-    
-    
+    <div>
+    @error("code")
+        {{$message}}
+    @enderror
+    <label for="code" style="color: rgb(38, 73, 190);font-weight: bold;" >Code_article</label>    
+    <input type="text" name="code" value="{{ old('code','stylo-x')}} " style="margin-right: 15px">
+    </div>
+    <div>
+        <label for="date" style="color: rgb(38, 73, 190);font-weight: bold;">Date</label>
+            <input type="date" name="date" id="date" style="margin-right: 30px">
+
     </div>
     
-    <div class="container">
-        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;">
+    {{-- <div>
+        @error("designation")
+        {{$message}}
+    @enderror          
+    <label for="designation" style="color: rgb(38, 73, 190);font-weight: bold;">Désignation</label>    
+        <input type="text" name="designation" value="{{ old('designation','stylo')}}" style="margin-right: 15px">
+    </div> --}}
     
-            <?php
+</form>
+</div>
+    </div>
+
+</div>
+
+
+    
+    
+<div class="container">
+    
+    
+     <?php
                 if($init==true){
                     ?>
 
-            <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
-            <head style="overflow-y:fixed">
+            <div
+            class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;"
+            >
+                
+        <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
+        <head style="overflow-y:fixed">
+            <tr>
+                <th scope="col">Code article</th>
+                <th scope="col">Désignation article</th>
+                <th class="text-end">Dernier numéro de série</th>
+                <th class="text-end">Code plan</th>
+            </tr>
+        </head>
+        <tbody>
+            
+
+                    @foreach ($properties as $property )
                 <tr>
-                    <th scope="col">Code article</th>
-                    <th scope="col">Désignation article</th>
-                    <th scope="col" class="text-end">Numéro série</th>
-                </tr>
-            </head>
-            <tbody>
-                @foreach ($properties as $property )
-                    <tr>
-                        
-                        <td>{{ $property->code}}</td>
-                        <td>{{ $property->designation}}</td>
-                        <td>{{ $property->numS}}</td>
-                    </tr>
                     
-                @endforeach
-            </tbody>
-        </table>
-        <?php
-    $_SESSION['openS'] = 0;
+                    <td>{{ $property->code}}</td>
+                    <td>{{ $property->designation}}</td>
+                    <td>{{ $property->lastns}}</td>
+                    <td>{{ $property->plan}}</td>
+
+                </tr>
+                
+            @endforeach
+
+               
+            
+        </tbody>
+    </table>
+</div>
+
+    <?php
+    $_SESSION['openA'] = 0;
 }
 ?>
-    
-        {{-- {{ $properties->links()}} --}}
-    
-          </div>
-    
+    {{-- {{ $properties->links()}} --}}
+
     </div>
+     
 
-  </div>
+</div>
+    
 
-
-
+</div>
 @endsection

@@ -160,15 +160,13 @@ return view('series.anums',[
         'init' => $init
     ]);
 
-
-
-}
-    
-    
-    
-    
+    }       
     
     }
+
+
+
+
     public function afpost(AfficheNumsRequest $request)
     {
 

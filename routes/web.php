@@ -77,7 +77,7 @@ Route::post('/new','App\Http\Controllers\mainController@store')->name('store'); 
 
 // Generation de num serie V
 Route::get('/','App\Http\Controllers\NumSeriesController@create')->name('createns')->middleware('auth'); //route vers le ctrlr nomme create numserie :: form
-Route::post('/','App\Http\Controllers\NumSeriesController@store')->name('storens')->middleware('auth');; //route vers le ctrlr nomme create :: forrm soumis
+Route::post('/','App\Http\Controllers\NumSeriesController@store')->name('storens'); //route vers le ctrlr nomme create :: forrm soumis
 
 // Generation de num serie V
 Route::get('/afs','App\Http\Controllers\NumSeriesController@afget')->name('afget')->middleware('auth'); //route vers le ctrlr nomme create numserie :: form
@@ -112,12 +112,9 @@ Route::get('affus/', function () {
 })->name('affus');
 
 // affiche ts les art V
-Route::get('affA/', function () {
-    return articles::all();
-})->name('affA');
-Route::post('affA/', function () {
-    return articles::all();
-})->name('affAp');
+Route::get('/affA','App\Http\Controllers\ArticlesController@afaget')->name('afaget')->middleware('auth');//afficher form ns
+Route::post('/affA','App\Http\Controllers\ArticlesController@afapost')->name('afapost');//afficher form ns
+
 
 // affiche ts les art V
 Route::get('affp/', function () {

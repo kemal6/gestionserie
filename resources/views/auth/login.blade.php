@@ -4,10 +4,11 @@
  <?php
  //On init
  session_start();
- $_SESSION['openA'] = 0;
- $_SESSION['openGS'] = 0;
- $_SESSION['openS'] = 0;
- $_SESSION['openP'] = 0;
+ $_SESSION['openA'] = 0;  // creat
+ $_SESSION['openAA'] = 0; // affichart
+ $_SESSION['openGS'] = 0; // gens
+ $_SESSION['openS'] = 0; // afns
+ $_SESSION['openP'] = 0; // crep
 
 
 ?>

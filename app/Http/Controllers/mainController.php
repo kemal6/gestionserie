@@ -128,17 +128,7 @@ class mainController extends Controller
         
     }
 
-    // public function indexA(AfficheNumsRequest $request): View {
-    //     //$nums= num_series::paginate(25);
-
-  
-    //         //return view('series.serieindex');
-    //     }
-
-//     public function fexport(): View {
-
-//         return view('series.fexport');     
-//    }
+   
 
 
     public function create(): View {

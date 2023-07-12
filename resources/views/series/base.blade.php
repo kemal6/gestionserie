@@ -54,7 +54,7 @@
                     </a>                
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('affA')}}" class="nav-link">
+                    <a href="{{ route('afaget')}}" class="nav-link">
                         Afficher des articles
                     </a>                
                 </li>                  

@@ -32,7 +32,7 @@
         {{$message}}
     @enderror
     <label for="code" style="color: rgb(38, 73, 190);font-weight: bold;" >Code_article</label>    
-    <input type="text" name="code" value="{{ old('code','stylo-x')}} " style="margin-right: 15px">
+    <input type="text" name="code" value="{{ old('code','art4')}} " style="margin-right: 15px">
     </div>
     
     <div>
@@ -40,7 +40,7 @@
         {{$message}}
     @enderror          
     <label for="designation" style="color: rgb(38, 73, 190);font-weight: bold;">Désignation</label>    
-        <input type="text" name="designation" value="{{ old('designation','stylo')}}" style="margin-right: 15px">
+        <input type="text" name="designation" value="{{ old('designation','desart4')}}" style="margin-right: 15px">
     </div>
 
     <div>
@@ -48,7 +48,7 @@
         {{$message}}
     @enderror          
     <label for="lastns" style="color: rgb(38, 73, 190);font-weight: bold;">Dernier numéro de série</label>    
-        <input type="text" name="lastns" value="{{ old('lastns','')}}" style="margin-right: 15px">
+        <input type="text" id="lastns" name="lastns" value="{{ old('lastns','art4230000')}}" style="margin-right: 15px">
     </div>
 
    
