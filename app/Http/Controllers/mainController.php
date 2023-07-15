@@ -136,9 +136,11 @@ class mainController extends Controller
         //return view('series.create');
 
         $articles=articles::all(); 
+        $plans=plans::all(); 
         
         return view('series.create',[
-            'articles' => $articles
+            'articles' => $articles,
+            'plans'=>$plans
         ]);  
      }
 

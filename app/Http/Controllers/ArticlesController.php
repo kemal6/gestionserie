@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\ArticlesController;
 use App\Http\Requests\AfficheArticlesRequest;
 use App\Http\Requests\CreateArticlesRequest;
 use App\Http\Requests\StorearticlesRequest;
@@ -31,10 +32,14 @@ class ArticlesController extends Controller
     public function create()
     {
         //
-        $plans=plans::all(); 
+        //$plans=plans::all(); 
 
     
         //---
+
+        if(!isset($_SESSION['openA'])){
+            return redirect()->route('auth.login');
+        }
 
      if(isset($_SESSION['openA'])){
 
@@ -48,7 +53,7 @@ class ArticlesController extends Controller
             $prop=[''];
            
             return view('series.createA',[
-                'plans' => $plans,
+                //'plans' => $plans,
                 'properties' => $prop,
                 'init' => $init
             ]);
@@ -59,8 +64,11 @@ class ArticlesController extends Controller
 
             
 
-            $prop= articles::select('articles.created_at','articles.plan_id','articles.lastns','plans.id','articles.designation as designation','articles.code as code','plans.id','plans.code as plan')
-        ->join('plans', 'articles.plan_id', 'plans.id')->orderBy('articles.created_at','desc')->first();
+        $prop= articles::select('articles.id','articles.created_at','articles.lastns','articles.designation as designation','articles.code as code')
+        //->join('plans', 'articles.plan_id', 'plans.id')
+        ->orderBy('articles.id','desc')->first();
+
+        //$prop=articles::latest()->first();
 
         //dd($prop->code);
         $a=array();
@@ -71,7 +79,7 @@ class ArticlesController extends Controller
 
            
             return view('series.createA',[
-                'plans' => $plans,
+              //  'plans' => $plans,
                 'properties' => $a,
                 'init' => true
             ]);
@@ -99,7 +107,7 @@ class ArticlesController extends Controller
           
     $designarticle=$request->input('designation'); // val du champs article du form gnms
     $codearticle=$request->input('code'); // val du champs article du form gnms
-    $plan=$request->input('plan');
+    //$plan=$request->input('plan');
     $ns=$request->input('lastns');
     $lastns=$ns;
     // if(!isset($ns) ){
@@ -170,7 +178,6 @@ class ArticlesController extends Controller
 
              articles::create(
                 [
-                    'plan_id' => $plan,
                     'code' => $codearticle,
                     'designation' => $designarticle,
                     'lastns' => $lastns,
@@ -178,11 +185,32 @@ class ArticlesController extends Controller
                      ]
              );
 
+            $_SESSION['openA']=$_SESSION['openA']+1;
+
+            
+
+            // $art= articles::where('code',$codearticle)->first();
+            //     //$art->code=$codearticle;
+              
+                 $a=array();
+                array_push($a,[
+                    'code' => $codearticle,
+                    'designation' => $designarticle,
+                    'lastns' => $lastns,
+                    // 'user_id' => $user->id, 
+                     ]);
+             $data=['properties'=>$a,'init'=>true];
+
+
+             
+
+
+             //return redirect()->route('afapost',$data)->with('succes',"Opération réussie");
              return redirect()->back()->with('succes',"Opération réussie");
 
         }else{
             //dd('reoog');
-            return redirect()->back()->with('error',"Valeurs incorrectes");
+            return redirect()->back()->with('error',"Numéros de séries incorrectes");
 
 
         }
@@ -226,6 +254,8 @@ class ArticlesController extends Controller
             $date=$request->input('date'); //
             
             //$tabdate=str_split($date);
+
+           // dd($codearticle);
 
 
 
@@ -332,12 +362,17 @@ class ArticlesController extends Controller
 
             }elseif(isset($codearticle))
             {
-                
-            $af= articles::select('plans.id','plans.code as plan','articles.designation as designation','articles.code as code','articles.lastns as lastns')
+                //dd($codearticle);
+
+            // $af= articles::select('plans.id','plans.code as plan','articles.designation as designation','articles.code as code','articles.lastns as lastns')
+            // ->where('articles.code', '=',$codearticle)
+            // ->join('plans', 'articles.plan_id','plans.id')
+            // // ->join('users', 'users.id', 'num_series.user_id')
+            // ->orderBy('articles.created_at','desc')->get(); 
+
+            $af=articles::select('articles.designation as designation','articles.code as code','articles.lastns as lastns')
             ->where('articles.code', '=',$codearticle)
-            ->join('plans', 'articles.plan_id','plans.id')
-            // ->join('users', 'users.id', 'num_series.user_id')
-            ->orderBy('articles.created_at','desc')->get(); 
+            ->orderBy('articles.created_at','asc')->get();
 
             $articles=articles::all(); 
 
@@ -346,8 +381,8 @@ class ArticlesController extends Controller
 
             return view('series.aart',[
                 'properties' => $af,
-                'articles' => $articles,
-                'plans'=>$plans,
+                //'articles' => $articles,
+                //'plans'=>$plans,
                 'init' => true
             ]);
 
@@ -611,7 +646,6 @@ class ArticlesController extends Controller
                 //dd($plan." ".$codearticle." ".$designarticle." ".$numser);
     
                 $art= articles::where('code',$codearticle)->first();
-                $art->plan_id=$plan;
                 //$art->code=$codearticle;
                 $art->designation=$designarticle;
                 $art->lastns=$numser;                

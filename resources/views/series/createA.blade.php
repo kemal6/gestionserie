@@ -15,7 +15,7 @@
     
     <button class="btn btn-primary" style="margin-right: 25px"> Créer </button>
 
-    <div>
+    {{-- <div>
         <label for="plan" style="color: rgb(38, 73, 190);font-weight: bold;">Plan</label>
 
             <select name="plan" id="plan" style="margin-right: 15px">
@@ -24,7 +24,7 @@
                 @endforeach
             </select>
 
-    </div>
+    </div> --}}
 
     
     <div>

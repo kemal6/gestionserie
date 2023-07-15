@@ -20,7 +20,7 @@
                     <button class="btn btn-primary my-2 my-sm-0" type="submit" style="margin-right: 15px">Génerer</button>  
                     <div>
                         <label for="article" style="color: rgb(38, 73, 190);font-weight: bold; margin-right: 15px;">Code_article</label>
-                            <select name="article" id="article">
+                            <select name="article" id="article" style="margin-right: 15px">
                                 @foreach($articles as $a)
                                     <option value="{{ $a->code }}">{{ $a->code }}</option>
                                 @endforeach
@@ -28,7 +28,17 @@
                 
                     </div>  
                     <div>
-                    <label for="nombre" style="color: rgb(38, 73, 190);font-weight: bold;">Nombre</label>
+                        <label for="plan" style="color: rgb(38, 73, 190);font-weight: bold;" style="margin-right: 15px">Plan</label>
+                
+                            <select name="plan" id="plan" style="margin-right: 15px">
+                                @foreach($plans as $p)
+                                    <option value="{{ $p->code }}">{{ $p->code }}</option>
+                                @endforeach
+                            </select>
+                
+                    </div>
+                    <div>
+                    <label for="nombre" style="color: rgb(38, 73, 190);font-weight: bold;" style="margin-right: 15px">Nombre</label>
 
                     <input type="number" name="nombre" id="" min="1" max="50" value="1" style="margin-left: 15px">
                     </div>
@@ -51,11 +61,11 @@
                         @csrf       
                         <button class="btn btn-outline-success" type="submit">Exporter</button> 
                     </form>
-                    <h6>_</h6>        
+                    {{-- <h6>_</h6>        
                     <form action="{{ route('fimport')}}" method="get" >      
                         @csrf  
                         <button class="btn btn-outline-success" type="submit">Importer</button> 
-                    </form> 
+                    </form>  --}}
     
                 </div>
     

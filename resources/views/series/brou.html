@@ -1,0 +1,35 @@
+                    <div>
+                        <label for="plan" style="color: rgb(38, 73, 190);font-weight: bold;">Plan</label>
+                            <input type="text" name="plan" value="" id="plan" > 
+                
+                    </div>
+
+                    <div>
+                   
+                        <script>
+                            $(document).ready(function() {
+                                $('#plan').autocomplete({
+                                    source: function(request, response) {
+                                        $.ajax({
+                                            url: "{{ route('getPlans') }}",
+                                            dataType: "json",
+                                            data: {
+                                                term : request.term
+                                            },
+                                            success: function(data) {
+                                                response(data);
+                                            },
+                                            
+
+                                        });
+                                    },
+                                    minLength: 1 // nombre minimum de caractères avant de lancer la recherche
+                                    
+                                });
+                            });
+                        </script>        
+                    
+                    </div> 
+
+
+                    

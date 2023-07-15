@@ -4,7 +4,7 @@
 @section('content')
 <div>
 <div class="container">
-<h1 style="margin-bottom: 30px">Afficher un article</h1>
+<h1 style="margin-bottom: 30px">Afficher des articles</h1>
           
     <div class="row justify-content-md-center">
     
@@ -14,7 +14,7 @@
 
     
     <button class="btn btn-primary" style="margin-right: 25px"> Afficher </button>
-
+{{-- 
     <div>
         <label for="plan" style="color: rgb(38, 73, 190);font-weight: bold;">Plan</label>
 
@@ -24,7 +24,7 @@
                 @endforeach
             </select>
 
-    </div>
+    </div> --}}
 
     
     <div>
@@ -34,11 +34,11 @@
     <label for="code" style="color: rgb(38, 73, 190);font-weight: bold;" >Code_article</label>    
     <input type="text" name="code" value="{{ old('code','stylo-x')}} " style="margin-right: 15px">
     </div>
-    <div>
+    {{-- <div>
         <label for="date" style="color: rgb(38, 73, 190);font-weight: bold;">Date</label>
             <input type="date" name="date" id="date" style="margin-right: 30px">
 
-    </div>
+    </div> --}}
     
     {{-- <div>
         @error("designation")<button type="button" data-toggle="modal" data-target="#infos" class="btn btn-secondary">Commande</button>
@@ -81,7 +81,6 @@
                 <th scope="col">Code article</th>
                 <th scope="col">Désignation article</th>
                 <th class="text-end">Dernier numéro de série</th>
-                <th class="text-end">Code plan</th>
                 <th class="text-end"></th>
             </tr>
         </head>
@@ -94,7 +93,6 @@
                     <td>{{ $property->code}}</td>
                     <td>{{ $property->designation}}</td>
                     <td>{{ $property->lastns}}</td>
-                    <td>{{ $property->plan}}</td>
                     <td>
                         <center> 
                             {{-- Bouton déclencheur  --}}
@@ -132,7 +130,7 @@
                                             <label for="lastns" class="form-control-label">Dernier numéro de série</label>
                                             <input type="text" class="form-control" name="lastns" id="lastns" value="{{$property->lastns}}" placeholder="">
                                           </div>
-                                          <div class="form-group">
+                                          {{-- <div class="form-group">
                                             <label for="plan" style="">Plan</label>
                                     
                                                 <select name="plan" id="plan" style="">
@@ -141,7 +139,7 @@
                                                     @endforeach
                                                 </select>
                                     
-                                        </div>
+                                        </div> --}}
 
                                         <div class="form-group">
                                             <input type="hidden" class="form-control" name="code" id="code" value="{{$property->code}}">                                    

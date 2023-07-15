@@ -29,13 +29,14 @@ class NumSeriesController extends Controller
     {
 
         $articles=articles::all(); 
+        $plans= plans::all();
 
     
     // //---
     
     // $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
     // ->join('articles', 'num_series.article_id', 'articles.id')
-    // ->orderBy('num_series.created_at','desc')->get();
+    // ->orderBy('num_series.id','desc')->get();
     // //->paginate(6);
        
     //     return view('series.create',[
@@ -61,7 +62,8 @@ if($_SESSION['openS'] == 0){
     return view('series.create',[
         'properties' => $prop,
         'articles' => $articles,
-        'init' => $init
+        'init' => $init,
+        'plans'=>$plans
     ]);
 
 
@@ -71,9 +73,8 @@ else{
     
    // $articles=articles::all(); 
     $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
-->join('articles', 'num_series.article_id', 'articles.id')
-->orderBy('num_series.created_at','desc')->first();
-
+    ->join('articles', 'num_series.article_id', 'articles.id')
+    ->orderBy('num_series.id','desc')->first();
 
 //dd($prop->code);
 $a=array();
@@ -82,11 +83,14 @@ array_push($a,$numrs);
 //->paginate(6);
 
 $init=true;
+
+$plans=plans::all(); 
    
 return view('series.create',[
         'properties' => $a,
         'articles' => $articles,
-        'init' => $init
+        'init' => $init,
+        'plans' => $plans
     ]);
 
 
@@ -100,13 +104,15 @@ return view('series.create',[
     {
 
         $articles=articles::all(); 
+        $plans=plans::all(); 
+
 
     
     // //---
     
     // $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
     // ->join('articles', 'num_series.article_id', 'articles.id')
-    // ->orderBy('num_series.created_at','desc')->get();
+    // ->orderBy('num_series.id','desc')->get();
     // //->paginate(6);
        
     //     return view('series.anums',[
@@ -117,6 +123,9 @@ return view('series.create',[
     
     
             ////// ici
+            if(!isset($_SESSION['openS'])){
+                return redirect()->route('auth.login');
+            }
 
 
 if($_SESSION['openS'] == 0){ // 1ere arrivée de l'user sur la page
@@ -132,7 +141,8 @@ if($_SESSION['openS'] == 0){ // 1ere arrivée de l'user sur la page
     return view('series.anums',[
         'properties' => $prop,
         'articles' => $articles,
-        'init' => $init
+        'init' => $init,
+        'plans'=> $plans
     ]);
 
 
@@ -157,7 +167,8 @@ $init=true;
 return view('series.anums',[
         'properties' => $a,
         'articles' => $articles,
-        'init' => $init
+        'init' => $init,
+        'plans'=> $plans
     ]);
 
     }       
@@ -210,7 +221,7 @@ return view('series.anums',[
                 ->whereDate('num_series.created_at',$date)
                 ->join('num_series', 'num_series.article_id', 'articles.id')
                 ->join('users', 'users.id', 'num_series.user_id')
-                ->orderBy('num_series.created_at','desc')->get(); 
+                ->orderBy('num_series.id','desc')->get(); 
 
                 $articles=articles::all(); 
 
@@ -230,7 +241,7 @@ return view('series.anums',[
                 ->whereDate('num_series.created_at',$date)
                 ->join('num_series', 'num_series.article_id', 'articles.id')
                 //->join('users', 'users.id', 'num_series.user_id')
-                ->orderBy('num_series.created_at','desc')->get(); 
+                ->orderBy('num_series.id','desc')->get(); 
 
                 $articles=articles::all(); 
 
@@ -248,7 +259,7 @@ return view('series.anums',[
                 ->where('users.name','=',$usr)
                 ->join('num_series', 'num_series.article_id', 'articles.id')
                 ->join('users', 'users.id', 'num_series.user_id')
-                ->orderBy('num_series.created_at','desc')->get();   
+                ->orderBy('num_series.id','desc')->get();   
 
                 $articles=articles::all(); 
 
@@ -270,7 +281,7 @@ return view('series.anums',[
                 ->whereDate('num_series.created_at',$date)
                 ->join('num_series', 'num_series.article_id', 'articles.id')
                 //->join('users', 'users.id', 'num_series.user_id')
-                ->orderBy('num_series.created_at','desc')->get();   
+                ->orderBy('num_series.id','desc')->get();   
 
                 $articles=articles::all(); 
 
@@ -287,7 +298,7 @@ return view('series.anums',[
                 $a= articles::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
             ->where('code', '=',$codearticle)
             ->join('num_series', 'num_series.article_id', 'articles.id')
-            ->orderBy('num_series.created_at','desc')->get();
+            ->orderBy('num_series.id','desc')->get();
                // dd($codearticle);
 
                $articles=articles::all(); 
@@ -308,7 +319,7 @@ return view('series.anums',[
                 ->whereDate('num_series.created_at',$date)
                 ->join('num_series', 'num_series.article_id', 'articles.id')
                 //->join('users', 'users.id', 'num_series.user_id')
-                ->orderBy('num_series.created_at','desc')->get(); 
+                ->orderBy('num_series.id','desc')->get(); 
                 $articles=articles::all(); 
 
 
@@ -324,7 +335,7 @@ return view('series.anums',[
                 $a= articles::select('user_id','articles.designation as designation','num_series.numS as numS','articles.code as code')
             ->where('user_id', '=',$usr)
             ->join('num_series', 'num_series.article_id', 'articles.id')
-            ->orderBy('num_series.created_at','desc')->get();
+            ->orderBy('num_series.id','desc')->get();
                 //dd($usr);
 
                 $articles=articles::all(); 
@@ -379,8 +390,13 @@ return view('series.anums',[
      */
     public function store(CreateNumsRequest $request)
     {
-        //
+        //    
+        $plan=plans::all();   
+        
 
+        if(!isset($_SESSION['openS'])){
+            return redirect()->route('auth.login');
+        }
     $c= $request->validated( );
 
 
@@ -393,12 +409,22 @@ return view('series.anums',[
        
     $nbg=$request->input('nombre'); // nombre de nms a generer        
     $codeA=$request->input('article'); // ncode de l'art a generer        
+    $plan=$request->input('plan'); // plan
+    $plane= plans::where('code',$plan)->first();
+  
+    
+    if (!isset($plan) && !isset($plane)){ // si on na encore rien generer on cmce a zero
+        return redirect()->back()->with('error',"Plan incorrect");
+    }
 
-    $a= articles::select('articles.id','articles.code','num_series.numS','num_series.created_at') //dernier nums de cet art generer
-    ->where('articles.code', '=',$codeA)
-    ->join('num_series', 'num_series.article_id', 'articles.id')->orderBy('num_series.id','desc')->first();
+    // $a= articles::select('articles.id','articles.code','num_series.numS','num_series.created_at') //dernier nums de cet art generer
+    // ->where('articles.code', '=',$codeA)
+    // ->join('num_series', 'num_series.article_id', 'articles.id')->orderBy('num_series.id','desc')->first();
 
-   
+    $a= articles::select('articles.id','articles.code','articles.lastns as lastns') //dernier nums de cet art generer
+    ->where('articles.code', '=',$codeA)->first();
+    //->orderBy('a.id','desc')->first();
+
     // ici
 ;
 
@@ -407,7 +433,7 @@ return view('series.anums',[
     }
     else{ // sinon on cmce a la dernier val de ns
          
-    $ilastnsid=$a->numS; // substr($chaine, -10)
+    $ilastnsid=$a->lastns; // substr($chaine, -10)
     $lastnsid=substr($ilastnsid, -4);
 
     $lastns=(int)$lastnsid;
@@ -449,15 +475,25 @@ return view('series.anums',[
         $userid=Auth::user()->id;
         //$artid=1;
 
+       //dd($numser);
+
 
         $nums= num_series::create(
             [
             'article_id'=> $artid,        
             'numS' => $numser,
             'user_id' => $userid,
+            'plan_code' => $plan,
     
             ]
         );
+
+        $art= articles::where('code',$codeA)->first();
+                //$art->plan_id=$plan;
+                //$art->code=$codearticle;
+                //$art->designation=$designarticle;
+        $art->lastns=$numser;                
+        $art->save();
 
         $p=$p+1;
         $_SESSION['openS']=$_SESSION['openS']+ 1;
