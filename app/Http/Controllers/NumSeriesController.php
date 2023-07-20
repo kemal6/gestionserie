@@ -9,6 +9,7 @@ use App\Http\Requests\Updatenum_seriesRequest;
 use App\Models\articles;
 use App\Models\num_series;
 use App\Models\plans;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 session_start();
@@ -22,6 +23,7 @@ class NumSeriesController extends Controller
         //
     }
 
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -47,7 +49,9 @@ class NumSeriesController extends Controller
 
 
         ////// ici
-
+        if(!isset($_SESSION['openS'])){
+            return redirect()->route('auth.login');
+        }
 
 if($_SESSION['openS'] == 0){
     $init=false;
@@ -194,6 +198,7 @@ return view('series.anums',[
             $codearticle=$request->input('article'); // val du champs article du form gnms
             $date=$request->input('date'); // string sous la forme  yyyy-mm-dd 
             $usr=$request->input('usr'); //
+
             
             //$tabdate=str_split($date);
 
@@ -210,20 +215,29 @@ return view('series.anums',[
 
             if( isset($codearticle) && isset($date) && isset($usr) )
             {
-                $date=$tabdate[0].'-'.$tabdate[2].'-'.$tabdate[1];
+                $date=$tabdate[0].'-'.$tabdate[1].'-'.$tabdate[2];
 
-               // dd($date.$usr.$codearticle);
+                
+
+               // dd("date: ".$date." **User: ".$usr. "  **code:  ".$codearticle);
 
 
                 $af= articles::select('num_series.created_at','num_series.user_id as user','articles.designation as designation','num_series.numS as numS','articles.code as code')
                 ->where('code', '=',$codearticle)
-                ->where('users.name','=',$usr)
-                ->whereDate('num_series.created_at',$date)
+                ->where('users.id','=',$usr)
+                ->whereDate('num_series.created_at','2023-07-17')
                 ->join('num_series', 'num_series.article_id', 'articles.id')
                 ->join('users', 'users.id', 'num_series.user_id')
                 ->orderBy('num_series.id','desc')->get(); 
 
+                //dd($af);
+
+                // $b= num_series::select('num_series.created_at as c ','num_series.numS as n' ,'num_series.id as i')
+                // ->orderBy('num_series.id','desc')->get(); 
+
                 $articles=articles::all(); 
+
+                //return($af);
 
 
                 return view('series.anums',[
@@ -234,7 +248,7 @@ return view('series.anums',[
             }
             elseif (isset($codearticle) && isset($date)) { //manipula date
                 # code...
-                $date=$tabdate[0].'-'.$tabdate[2].'-'.$tabdate[1];
+                $date=$tabdate[0].'-'.$tabdate[1].'-'.$tabdate[2];
 
                 $af= articles::select('num_series.created_at','num_series.user_id as user','articles.designation as designation','num_series.numS as numS','articles.code as code')
                 ->where('code', '=',$codearticle)
@@ -256,7 +270,7 @@ return view('series.anums',[
                 
                 $af= articles::select('num_series.user_id as user','articles.designation as designation','num_series.numS as numS','articles.code as code')
                 ->where('code', '=',$codearticle)
-                ->where('users.name','=',$usr)
+                ->where('users.id','=',$usr)
                 ->join('num_series', 'num_series.article_id', 'articles.id')
                 ->join('users', 'users.id', 'num_series.user_id')
                 ->orderBy('num_series.id','desc')->get();   
@@ -274,7 +288,7 @@ return view('series.anums',[
 
             }elseif (isset($user) && isset($date)) {
                 # code...
-                $date=$tabdate[0].'-'.$tabdate[2].'-'.$tabdate[1];
+                $date=$tabdate[0].'-'.$tabdate[1].'-'.$tabdate[2];
                 
                 $af= articles::select('num_series.created_at','num_series.user_id as user','articles.designation as designation','num_series.numS as numS','articles.code as code')
                 ->where('user', '=',$usr)
@@ -295,6 +309,8 @@ return view('series.anums',[
 
             }elseif(isset($codearticle))
             {
+
+
                 $a= articles::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
             ->where('code', '=',$codearticle)
             ->join('num_series', 'num_series.article_id', 'articles.id')
@@ -313,13 +329,29 @@ return view('series.anums',[
 
             }elseif(isset($date))
             {
-                $date=$tabdate[0].'-'.$tabdate[2].'-'.$tabdate[1];
+                //dd($codearticle);
+//                dd($date);
+
+
+                $date=$tabdate[0].'-'.$tabdate[1].'-'.$tabdate[2];
+
 
                 $af= articles::select('num_series.created_at','num_series.user_id as user','articles.designation as designation','num_series.numS as numS','articles.code as code')
-                ->whereDate('num_series.created_at',$date)
+                ->where('num_series.created_at','=',$date)
                 ->join('num_series', 'num_series.article_id', 'articles.id')
                 //->join('users', 'users.id', 'num_series.user_id')
                 ->orderBy('num_series.id','desc')->get(); 
+
+                //$af=num_series::select('created_at')->first();
+
+                // date_DB: 2023-07-25
+
+                //dd($date);
+
+               //return num_series::select('numS','created_at')->where('created_at','=','2023-07-19')->get();
+
+                //dd($af);
+
                 $articles=articles::all(); 
 
 
@@ -361,15 +393,24 @@ return view('series.anums',[
 
             //return dd($a[0]->code);
             //->paginate(6);
+
+//             $numrs= num_series::select('articles.designation as designation','num_series.numS as numS','articles.code as code')
+// ->join('articles', 'num_series.article_id', 'articles.id')
+// ->orderBy('num_series.created_at','desc')->first();
+
+
+// //dd($prop->code);
+// // $a=array();
+// // array_push($a,$numrs);
             
 
-            $articles=articles::all(); 
+//             $articles=articles::all(); 
 
                     
-                    return view('series.anums',[
-                        'properties' => $a,
-                        'articles' => $articles
-                    ]);
+//                     return view('series.anums',[
+//                         'properties' => $a,
+//                         'articles' => $articles
+//                     ]);
 
 
 
@@ -397,6 +438,7 @@ return view('series.anums',[
         if(!isset($_SESSION['openS'])){
             return redirect()->route('auth.login');
         }
+
     $c= $request->validated( );
 
 
@@ -474,19 +516,34 @@ return view('series.anums',[
         $numser=$nsf;
         $userid=Auth::user()->id;
         //$artid=1;
+       $ca=Carbon::now()->toDateString();
 
-       //dd($numser);
+      //dd($ca);
+
+      $existns= num_series::select('numS')->where('numS','=',$numser)->get(); // ns ayant le mm numS
+      $texistns=$existns=="[]";
+      if(!$texistns ){
+   // dd($numser.'  *  '.$existns.'  ** '.$texistns);
+       return redirect()->back()->with('error',"Numéro de série conflictuel!!   
+       veuillez consuter la liste des numéros de séries existants pour cet article  
+       et modifier le dernier numéro de série de l'article .. ");
+    }
 
 
-        $nums= num_series::create(
-            [
-            'article_id'=> $artid,        
-            'numS' => $numser,
-            'user_id' => $userid,
-            'plan_code' => $plan,
-    
-            ]
-        );
+            $nums= num_series::create(
+                array(
+                'article_id'=> $artid,        
+                'numS' => $numser,
+                'user_id' => $userid,
+                'plan_code' => $plan,
+                'created_at' => $ca,
+                'updated_at' => $ca
+                )
+            );
+        
+        // $nums->timestamp('created_at')->useCurrent();
+        // $nums->timestamp('updated_at')->useCurrent();
+ 
 
         $art= articles::where('code',$codeA)->first();
                 //$art->plan_id=$plan;

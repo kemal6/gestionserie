@@ -14,17 +14,6 @@
 
     
     <button class="btn btn-primary" style="margin-right: 25px"> Afficher </button>
-{{-- 
-    <div>
-        <label for="plan" style="color: rgb(38, 73, 190);font-weight: bold;">Plan</label>
-
-            <select name="plan" id="plan" style="margin-right: 15px">
-                @foreach($plans as $p)
-                    <option value="{{ $p->id }}">{{ $p->code }}</option>
-                @endforeach
-            </select>
-
-    </div> --}}
 
     
     <div>
@@ -32,28 +21,46 @@
         {{$message}}
     @enderror
     <label for="code" style="color: rgb(38, 73, 190);font-weight: bold;" >Code_article</label>    
-    <input type="text" name="code" value="{{ old('code','stylo-x')}} " style="margin-right: 15px">
-    </div>
-    {{-- <div>
-        <label for="date" style="color: rgb(38, 73, 190);font-weight: bold;">Date</label>
-            <input type="date" name="date" id="date" style="margin-right: 30px">
-
-    </div> --}}
-    
-    {{-- <div>
-        @error("designation")<button type="button" data-toggle="modal" data-target="#infos" class="btn btn-secondary">Commande</button>
-<div class="modal" id="infos">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      Contenu de la fenêtre modale
-    </div>
+          <input type="text" name="code"  id="code"  style="margin-right: 30px" autocomplete="off">
   </div>
-</div>
-        {{$message}}
-    @enderror          
-    <label for="designation" style="color: rgb(38, 73, 190);font-weight: bold;">Désignation</label>    
-        <input type="text" name="designation" value="{{ old('designation','stylo')}}" style="margin-right: 15px">
-    </div> --}}
+
+  <script>
+      $(document).ready(function() {
+      $( "#code" ).autocomplete({
+    
+          source: function(request, response) {
+              $.ajax({
+              headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                          },
+              url: "{{ route('getArticles')}}",
+              dataType: "json",
+              async: true,
+              data: {
+                  term : request.term
+                  //term : 'envoie'
+               },
+               method:"POST",
+              success: function(data){
+                  response(data);
+              //console.log(data);
+              },
+              error: function (data, textStatus, errorThrown) {
+          console.log(data);
+  
+      },
+          });
+      },
+  
+      select: function(event,ui){
+          $('#code').val(ui.item.label);
+                  return false;
+              },
+      minLength: 1
+   });
+  })
+  </script> 
+
     
 </form>
 </div>
@@ -72,10 +79,10 @@
                     ?>
 
             <div
-            class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;"
+            {{-- class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-y:scroll;height:400px;" --}}
             >
                 
-        <table class="table table-bordered table-striped mb-0" style="margin-top: 20px">
+        <table class="table table-bordered table-striped mb-0" style="margin-top: 30px">
         <head style="overflow-y:fixed">
             <tr>
                 <th scope="col">Code article</th>

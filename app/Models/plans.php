@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class plans extends Model
 {
+    public $timestamps = true;
     protected $guarded = [];  
     use HasFactory;
     public function getDateFormat(){

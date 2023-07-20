@@ -10,6 +10,7 @@ use App\Http\Requests\UpdatearticlesRequest;
 use App\Models\articles;
 use App\Models\num_series;
 use App\Models\plans;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -24,6 +25,39 @@ class ArticlesController extends Controller
     public function index()
     {
         //
+    }
+
+
+    public function getArticles(Request $request){ // autocomplete users
+
+    
+        $search = $request->get('term'); // récupère la saisie de l'utilisateur
+    
+        if($search == ""){
+            $usrs= articles::orderby('code','asc')
+            ->select('id','code')
+            ->limit(5)
+            ->get();
+        }else{
+            $usrs= articles::orderby('code','asc')
+            ->select('id','code')
+            ->where('code','like','%'.$search.'%')
+            ->limit(5)
+            ->get();
+        }
+        $response=$usrs;
+    
+    
+        //$response= ['yo','ok'];
+        $response = array();
+        foreach($usrs as $usr){
+            $response[] = array(
+                'value' => $usr->id,
+                'label' => $usr->code
+            );
+        }
+        return response()->json($response);
+    
     }
 
     /**
@@ -607,6 +641,13 @@ class ArticlesController extends Controller
     
         if($resultcode && !$resultnums){ //si nums absent mais codea present 
     
+            $dnumrs= num_series::select('articles.code','num_series.numS as numS','num_series.id as ids')
+            ->join('articles', 'num_series.article_id', 'articles.id')
+            ->where('articles.code','=',$codearticle)
+            ->orderBy('num_series.id','desc')->first();
+
+            $dy1= substr($dnumrs,-6); // 6 derniers carac de nums
+
     
             $numser=$lastns;
             $codear=$codearticle;
@@ -623,9 +664,12 @@ class ArticlesController extends Controller
             $t1=($ccode==$codear);
     
             $t2=($codear.$y1==$numser); // test de long de nums
+            $year=substr(strval(date('Y')),-2);  // deux derniers carac de l'année en cours
     
-            $t4=("23".$y2 == $y1);// format 23xxxx
+            $t4=($year.$y2 == $y1);// format 23xxxx
             //dd('ici');
+
+            $t5=intval($y1)>intval($dy1);
     
             if($numser==""){
 
@@ -636,8 +680,9 @@ class ArticlesController extends Controller
             }
     
             //dd($t4);
+            //continue
     
-            if($t3 && $t1 && $t2 && $t4)
+            if($t3 && $t1 && $t2 && $t4 && $t5)
             {
                // $ida=$b->ida;
                 //$codea=$b->code;
@@ -679,7 +724,7 @@ class ArticlesController extends Controller
         }else{
             //dd($lastns);
     
-            return redirect()->back()->with('error',"Ce numéro de série est déja présent dans la base de donnée");
+            return redirect()->back()->with('error',"Numéro de sérrie conflictuel");
     
         }
            

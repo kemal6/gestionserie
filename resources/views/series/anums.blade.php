@@ -20,14 +20,47 @@
 
                     <button class="btn btn-primary my-2 my-sm-0" type="submit" style="margin-right: 15px">Afficher</button>  
                     <div>
-                        <label for="article" style="color: rgb(38, 73, 190);font-weight: bold;margin-right:30px">Code_article</label>
-                            <select name="article" id="article" style="margin-right: 30px">
-                                @foreach($articles as $a)
-                                    <option value="{{ $a->code }}">{{ $a->code }}</option>
-                                @endforeach
-                            </select>
-                
+                        <label for="article" style="color: rgb(38, 73, 190);font-weight: bold;">Code_article</label>
+                            <input type="text" name="article"  id="article"  style="margin-right: 30px" autocomplete="off">
                     </div>
+
+                    <script>
+                        $(document).ready(function() {
+                        $( "#article" ).autocomplete({
+                      
+                            source: function(request, response) {
+                                $.ajax({
+                                headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            },
+                                url: "{{ route('getArticles')}}",
+                                dataType: "json",
+                                async: true,
+                                data: {
+                                    term : request.term
+                                    //term : 'envoie'
+                                 },
+                                 method:"POST",
+                                success: function(data){
+                                    response(data);
+                                //console.log(data);
+                                },
+                                error: function (data, textStatus, errorThrown) {
+                            console.log(data);
+                    
+                        },
+                            });
+                        },
+                    
+                        select: function(event,ui){
+                            $('#article').val(ui.item.label);
+                                    return false;
+                                },
+                        minLength: 1
+                     });
+                    })
+                    </script> 
+                               
                     
                     <div>
                         <label for="date" style="color: rgb(38, 73, 190);font-weight: bold;">Date</label>
@@ -36,9 +69,50 @@
                     </div>
                     <div>
                         <label for="usr" style="color: rgb(38, 73, 190);font-weight: bold;">Utilisateur</label>
-                            <input type="text" name="usr" value="azer" id="usr">
-                
+                            <input type="text" id="name" id="name" autocomplete="off">
                     </div>
+                    <div>
+                        <input type="hidden" name="usr"  id="usr"  autocomplete="off">
+                    </div>
+
+<script>
+    $(document).ready(function() {
+    $( "#name" ).autocomplete({
+  
+        source: function(request, response) {
+            $.ajax({
+            headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+            url: "{{ route('getUsers')}}",
+            dataType: "json",
+            async: true,
+            data: {
+                term : request.term
+                //term : 'envoie'
+             },
+             method:"POST",
+            success: function(data){
+               response(data);
+            //console.log(data);
+            },
+            error: function (data, textStatus, errorThrown) {
+        console.log(data);
+
+    },
+        });
+    },
+
+    select: function(event,ui){
+        $('#usr').val(ui.item.value);
+        $('#name').val(ui.item.label);
+                return false;
+            },
+    minLength: 1
+ });
+})
+</script> 
+           
 
                     <div>
                         @error("article")
@@ -115,7 +189,7 @@
     
         {{-- {{ $properties->links()}} --}}
     
-          
+    
     
     </div>
 

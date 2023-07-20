@@ -18,16 +18,49 @@
                     @csrf
 
                     <button class="btn btn-primary my-2 my-sm-0" type="submit" style="margin-right: 15px">Génerer</button>  
+                   
                     <div>
-                        <label for="article" style="color: rgb(38, 73, 190);font-weight: bold; margin-right: 15px;">Code_article</label>
-                            <select name="article" id="article" style="margin-right: 15px">
-                                @foreach($articles as $a)
-                                    <option value="{{ $a->code }}">{{ $a->code }}</option>
-                                @endforeach
-                            </select>
-                
-                    </div>  
-                    <div>
+                        <label for="article" style="color: rgb(38, 73, 190);font-weight: bold;">Code_article</label>
+                            <input type="text" name="article"  id="article"  style="margin-right: 30px" autocomplete="off">
+                    </div>
+
+                    <script>
+                        $(document).ready(function() {
+                        $( "#article" ).autocomplete({
+                      
+                            source: function(request, response) {
+                                $.ajax({
+                                headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            },
+                                url: "{{ route('getArticles')}}",
+                                dataType: "json",
+                                async: true,
+                                data: {
+                                    term : request.term
+                                    //term : 'envoie'
+                                 },
+                                 method:"POST",
+                                success: function(data){
+                                    response(data);
+                                //console.log(data);
+                                },
+                                error: function (data, textStatus, errorThrown) {
+                            console.log(data);
+                    
+                        },
+                            });
+                        },
+                    
+                        select: function(event,ui){
+                            $('#article').val(ui.item.label);
+                                    return false;
+                                },
+                        minLength: 1
+                     });
+                    })
+                    </script> 
+                    {{-- <div>
                         <label for="plan" style="color: rgb(38, 73, 190);font-weight: bold;" style="margin-right: 15px">Plan</label>
                 
                             <select name="plan" id="plan" style="margin-right: 15px">
@@ -36,12 +69,57 @@
                                 @endforeach
                             </select>
                 
-                    </div>
+                    </div> --}}
                     <div>
                     <label for="nombre" style="color: rgb(38, 73, 190);font-weight: bold;" style="margin-right: 15px">Nombre</label>
 
-                    <input type="number" name="nombre" id="" min="1" max="50" value="1" style="margin-left: 15px">
+                    <input type="number" name="nombre" id="" min="1" value="1" style="margin-left: 15px">
                     </div>
+
+                    <div>
+                        <label for="plan" style="color: rgb(38, 73, 190);font-weight: bold;">Plan</label>
+                            <input type="text" name="plan"  id="plan"  style="margin-right: 30px;margin-left: 30px" autocomplete="off">
+                    </div>
+
+                    <script>
+                        $(document).ready(function() {
+                        $( "#plan" ).autocomplete({
+                           source:function(request, response) {
+                                $.ajax({
+                                headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            },
+                                url: "{{ route('getPlans')}}",
+                                dataType: "json",
+                                async: true,
+                                data: {
+                                    term : request.term
+                                    //term : 'envoie'
+                                 },
+                                 method:"POST",
+                                success: function(data){
+                                    response(data);
+                                //console.log(data);
+                                },
+                                error: function (data, textStatus, errorThrown) {
+                            console.log(data);
+                    
+                        },
+                            });
+                        },
+                    
+                        select: function(event,ui){
+                            $('#plan').val(ui.item.label);
+                                    return false;
+                                },
+                        minLength: 1
+                     });
+                    })
+                    </script> 
+
+
+
+
                     @error("nombre")
                         {{$message}}
                     @enderror                  

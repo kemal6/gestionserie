@@ -14,18 +14,6 @@
 
     
     <button class="btn btn-primary" style="margin-right: 25px"> Créer </button>
-
-    {{-- <div>
-        <label for="plan" style="color: rgb(38, 73, 190);font-weight: bold;">Plan</label>
-
-            <select name="plan" id="plan" style="margin-right: 15px">
-                @foreach($plans as $p)
-                    <option value="{{ $p->id }}">{{ $p->code }}</option>
-                @endforeach
-            </select>
-
-    </div> --}}
-
     
     <div>
     @error("code")

@@ -24,6 +24,12 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/','App\Http\Controllers\NumSeriesController@afpost')->name('indexA');//
 
 
+Route::post('/getUsers', 'App\Http\Controllers\CreateUsersController@getUsers')->name('getUsers');
+//Route::post('/getArticles', 'App\Http\Controllers\CreateUsersController@getArticles')->name('/getArticles');
+Route::post('/getArticles','App\Http\Controllers\CreateUsersController@getArticles')->name('getArticles'); 
+Route::post('/getPlans','App\Http\Controllers\CreateUsersController@getPlans')->name('getPlans'); 
+
+
 
     Route::get('/creatu', function () {
 
