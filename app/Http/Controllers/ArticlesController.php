@@ -637,16 +637,49 @@ class ArticlesController extends Controller
 
         //dd($lns);
     
+        $a= articles::select('articles.id','articles.code','articles.lastns as lastns') //dernier nums de cet art generer
+        ->where('articles.code', '=',$codearticle)->first();
+        //->orderBy('a.id','desc')->first();
+
+    // ici
+;
+
+       
+            
+        $ilastnsid=$a->lastns; // substr($chaine, -10)
+        $lastnsid=substr($ilastnsid, -4);
+        $lastns=(int)$lastnsid;
+
+        $lastnside=substr($ns, -4);
+        $lastnse=(int)$lastnside;
+
+        $cmp=$lastns<=$lastnse;
+
+        //dd(" bd: ".$lastns."  usr: ".$lastnse." cmp ".!$cmp);
+
+
+        if(!$cmp){
+            // dd("Lool");
+                return redirect()->back()->with('error',"Numéro de série conflictuel!!   
+                veuillez insérer un numéro supérieur au dernier numéro de série courrant... ");
+             }
+
+
     
     
-        if($resultcode && !$resultnums){ //si nums absent mais codea present 
     
-            $dnumrs= num_series::select('articles.code','num_series.numS as numS','num_series.id as ids')
-            ->join('articles', 'num_series.article_id', 'articles.id')
-            ->where('articles.code','=',$codearticle)
-            ->orderBy('num_series.id','desc')->first();
+        if($resultcode){ //si nums absent mais codea present 
+    
+            // $dnumrs= num_series::select('articles.code','num_series.numS as numS','num_series.id as ids')
+            // ->join('articles', 'num_series.article_id', 'articles.id')
+            // ->where('articles.code','=',$codearticle)
+            // ->orderBy('num_series.id','desc')->first();
+
+            $dnumrs=$a->lastns;
 
             $dy1= substr($dnumrs,-6); // 6 derniers carac de nums
+
+            $lastns=$ns;
 
     
             $numser=$lastns;
@@ -657,7 +690,9 @@ class ArticlesController extends Controller
             $ccode = substr($numser,0, strlen($codear)); //codea dans nums
             $y1 = substr($numser,-6); // 6 derniers carac de nums
             $y2 = substr($numser,-4); 
-    
+            
+            //dd($a->lastns);
+
     
             $t3=intval($y1)==$y1; // 6 derniers carac sont des entiers
     
@@ -669,7 +704,7 @@ class ArticlesController extends Controller
             $t4=($year.$y2 == $y1);// format 23xxxx
             //dd('ici');
 
-            $t5=intval($y1)>intval($dy1);
+            $t5=intval($y1)>=intval($dy1); // dernier ns de usr > dernier ns en bd
     
             if($numser==""){
 
@@ -679,6 +714,7 @@ class ArticlesController extends Controller
 
             }
     
+            //dd("3:".$t3." 1:".$t1." 2:".$t2." 4:".$t4." 5:".$t5);
             //dd($t4);
             //continue
     
@@ -724,7 +760,7 @@ class ArticlesController extends Controller
         }else{
             //dd($lastns);
     
-            return redirect()->back()->with('error',"Numéro de sérrie conflictuel");
+            return redirect()->back()->with('error',"Cet article existe déja dans la base de donnée..");
     
         }
            

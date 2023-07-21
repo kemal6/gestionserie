@@ -22,7 +22,7 @@ class CreateNumsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required']
+            //'nombre' => ['required']
             // 'autre' => ['required','regex:/^[0-9a-z\-]*$/','unique:articles']
         ];
     }

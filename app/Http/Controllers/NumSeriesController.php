@@ -431,7 +431,9 @@ return view('series.anums',[
      */
     public function store(CreateNumsRequest $request)
     {
-        //    
+        // 
+        
+
         $plan=plans::all();   
         
 
@@ -440,24 +442,95 @@ return view('series.anums',[
         }
 
     $c= $request->validated( );
+    $c=1;
 
 
     if(isset($c)){
 
+        $ac="";
+        $arc=[];
+
+        $arcl=[];
+
+        for($i=1;$i<=10;$i++){  // Pour toutes les lignes du tableau
 
 
+            $ac=" Article".$i.": ".$request->input('article'.$i)."   ** Plan".$i.": ".$request->input('plan'.$i)."   ** Nombre".$i.": ".$request->input('nombre'.$i);
+            
+            array_push($arcl,$request->input('article'.$i)); 
+            array_push($arcl,$request->input('plan'.$i)); 
+            array_push($arcl,$request->input('nombre'.$i)); 
 
-        //-- debut
-       
-    $nbg=$request->input('nombre'); // nombre de nms a generer        
-    $codeA=$request->input('article'); // ncode de l'art a generer        
-    $plan=$request->input('plan'); // plan
-    $plane= plans::where('code',$plan)->first();
-  
-    
-    if (!isset($plan) && !isset($plane)){ // si on na encore rien generer on cmce a zero
-        return redirect()->back()->with('error',"Plan incorrect");
+            array_push($arc,$arcl); 
+            $arcl=[];
+
+        }
+
+        //dd($arc);
+
+        $rr=[];
+
+        foreach ($arc as $row){
+            if(!in_array(0,$row)){ // traitement 
+                array_push($rr,$row);
+            }
+        }
+
+        $ac="";
+
+
+        // foreach ($rr as $row){
+        //     $ac=$ac.$row['0'];
+        // }
+
+        // dd($ac);
+
+        $arc=[];
+        $n=0;
+
+     if ($rr==$arc){ // si on na encore rien generer on cmce a zero
+        return redirect()->back()->with('error',"Vérifiez qu'au moins une ligne est completement remplie..");
     }
+
+
+        foreach ($rr as $row){  // Pour toutes les lignes du tableau
+
+
+            // $ac=" Article".$i.": ".$request->input('article'.$i)."   ** Plan".$i.": ".$request->input('plan'.$i)."   ** Nombre".$i.": ".$request->input('nombre'.$i);
+            // array_push($arc,$ac); 
+            
+            
+                    //-- debut
+       
+                    // $nbg=$request->input('nombre'.$i); // nombre de nms a generer        
+                    // $codeA=$request->input('article'.$i); // ncode de l'art a generer        
+                    // $plan=$request->input('plan'.$i); // plan
+                    // $plane= plans::where('code',$plan)->first();
+                    
+                    $nbg=$ac.$row['2'];// nombre de nms a generer        
+                    $codeA=$ac.$row['0']; // ncode de l'art a generer        
+                    $plan=$ac.$row['1']; // plan
+                    $plane= plans::where('code',$plan)->first();
+  
+   //dd("plan : ".$plan." || ".$plane);
+    
+    // if (!isset($plan) && !isset($plane) && !isset()){ // si on na encore rien generer on cmce a zero
+    //     return redirect()->back()->with('error',$i."jjjVérifiez les lignes que vous avez remplies sont completes");
+    // }
+    // if (!isset($codeA) && !isset($plan) && $n<9 ){ // si on ttes les val de col a la ligne courante
+    //     $n=$n+1;
+    //     break;
+    //     //return redirect()->back()->with('error',"Vérifiez les lignes que vous avez remplies sont completes");
+    // }
+    // if ((!isset($codeA) && isset($plan)) or (isset($codeA) && !isset($plan)) or ($n==10)){ // si on ttes les val de col a la ligne courante
+    //     //$testop=false;
+    //     //continue;
+    //     return redirect()->back()->with('error',"Vérifiez les lignes que vous avez remplies sont completes");
+    // }
+     
+    // if (!isset($plan) && !isset($plane) && !isset()){ // si on na encore rien generer on cmce a zero
+    //     return redirect()->back()->with('error',$i."jjjVérifiez les lignes que vous avez remplies sont completes");
+    // }
 
     // $a= articles::select('articles.id','articles.code','num_series.numS','num_series.created_at') //dernier nums de cet art generer
     // ->where('articles.code', '=',$codeA)
@@ -488,7 +561,7 @@ return view('series.anums',[
 
 
     
-    $p=$lt=$lastns+1;
+    $p=$lt=$lastns;
 
     
 
@@ -529,6 +602,7 @@ return view('series.anums',[
        et modifier le dernier numéro de série de l'article .. ");
     }
 
+   //dd($numser.'  *  '.$plan.'  ** '.$ca);
 
             $nums= num_series::create(
                 array(
@@ -559,10 +633,22 @@ return view('series.anums',[
     }
 
 
-    return redirect()->route('createns')->with('succes',"Génération réussie");   
+
+        }  // fin pour toutes les lignes du tableau
+
+        // dd($arc);
+
+        // print_r($ac);
+    
+        return redirect()->route('createns')->with('succes',"Génération réussie"); 
+
+
+  
  }
     else{
-    return redirect()->back()->with('error',"désination incorrecte");
+
+        dd('ici');
+    //return redirect()->back()->with('error',"désination incorrecte");
 }
  
     //return view('series.listns');
